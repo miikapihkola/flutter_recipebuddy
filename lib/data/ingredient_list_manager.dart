@@ -27,7 +27,9 @@ class IngredientListManager extends ChangeNotifier {
         inShoppinglist: true,
         isStarred: true,
         amountToBuy: 10,
-        buyMeasurement: "dl",
+        buyUnit: "dl",
+        currentAmount: 150,
+        unit: "ml",
       ),
     );
   }
@@ -59,13 +61,13 @@ class IngredientListManager extends ChangeNotifier {
   void toggleShoppinglist(
     IngredientItem item,
     double? amountToBuy,
-    String? buyMeasurement,
+    String? buyUnit,
   ) {
     item.inShoppinglist = !item.inShoppinglist;
     if (amountToBuy != null) {
       item.amountToBuy = amountToBuy;
-      if (buyMeasurement != null) {
-        item.buyMeasurement = buyMeasurement;
+      if (buyUnit != null) {
+        item.buyUnit = buyUnit;
       }
     }
     notifyListeners();
@@ -112,6 +114,8 @@ class IngredientListManager extends ChangeNotifier {
       oldItem.status = item.status;
       oldItem.inShoppinglist = item.inShoppinglist;
       oldItem.isStarred = item.isStarred;
+      oldItem.currentAmount = item.currentAmount;
+      oldItem.unit = item.unit;
 
       notifyListeners();
     }

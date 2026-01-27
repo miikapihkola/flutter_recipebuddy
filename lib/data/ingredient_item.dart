@@ -9,7 +9,9 @@ class IngredientItem {
   bool inShoppinglist = false;
   bool isStarred = false;
   double _amountToBuy = 0;
-  String buyMeasurement = "";
+  String buyUnit = "";
+  double _currentAmount = 0;
+  String unit = "";
 
   IngredientItem({
     required this.id,
@@ -22,10 +24,13 @@ class IngredientItem {
     this.inShoppinglist = false,
     this.isStarred = false,
     double amountToBuy = 0,
-    this.buyMeasurement = "",
+    this.buyUnit = "",
+    double currentAmount = 0,
+    this.unit = "",
   }) {
     this.status = status;
     this.amountToBuy = amountToBuy;
+    this.currentAmount = currentAmount;
   }
 
   int get status => _status;
@@ -43,6 +48,15 @@ class IngredientItem {
       _amountToBuy = value;
     } else {
       _amountToBuy = 0;
+    }
+  }
+
+  double get currentAmount => _currentAmount;
+  set currentAmount(double value) {
+    if (value >= 0) {
+      _currentAmount = value;
+    } else {
+      _currentAmount = 0;
     }
   }
 

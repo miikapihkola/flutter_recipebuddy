@@ -7,8 +7,24 @@ class RecipeListManager extends ChangeNotifier {
   final List<RecipeItem> _items = [];
 
   RecipeListManager() {
-    _items.add(RecipeItem(id: 0, title: "title", description: "description"));
-    _items.add(RecipeItem(id: 1, title: "title2", description: "description2"));
+    _items.add(
+      RecipeItem(
+        id: 0,
+        name: "title",
+        description: "description",
+        mainCategory: "cat1",
+        subCategory: "scat1",
+      ),
+    );
+    _items.add(
+      RecipeItem(
+        id: 1,
+        name: "title2",
+        description: "description2",
+        mainCategory: "cat1",
+        subCategory: "scat2",
+      ),
+    );
   }
 
   UnmodifiableListView<RecipeItem> get items => UnmodifiableListView(_items);
