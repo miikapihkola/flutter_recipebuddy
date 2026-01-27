@@ -6,7 +6,16 @@ class RecipesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Recipes")),
+      appBar: AppBar(
+        title: const Text("Recipes"),
+        actions: [
+          IconButton(
+            iconSize: Theme.of(context).iconTheme.size,
+            onPressed: () {},
+            icon: Icon(Icons.add),
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Column(children: [Text("placeholder")]),
       ),

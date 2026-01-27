@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import '/views/main_view.dart';
+import 'data/recipe_list_manager.dart';
+import 'data/ingredient_list_manager.dart';
+import 'views/main_view.dart';
 import 'package:provider/provider.dart';
 
 void main() => runApp(
-  ChangeNotifierProvider(
-    create: (context) {
-      //var model = TodoListManager();
-      //return model;
-    },
+  MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (context) => IngredientListManager()),
+      ChangeNotifierProvider(create: (context) => RecipeListManager()),
+    ],
     child: const MyApp(),
   ),
 );
@@ -26,13 +28,12 @@ class MyApp extends StatelessWidget {
           seedColor: const Color.fromARGB(255, 242, 235, 243),
         ),
         iconTheme: IconThemeData(size: 32.0),
-        buttonTheme: ButtonThemeData(height: 70, minWidth: 40),
       ),
       builder: (context, child) {
         return MediaQuery(
           data: MediaQuery.of(
             context,
-          ).copyWith(textScaler: TextScaler.linear(1.2)),
+          ).copyWith(textScaler: TextScaler.linear(1.3)),
           child: child!,
         );
       },
