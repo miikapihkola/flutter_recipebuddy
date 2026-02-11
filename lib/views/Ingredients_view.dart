@@ -27,15 +27,22 @@ class IngredientsView extends StatelessWidget {
               if (listManager.items.isEmpty) {
                 return Text("No Ingredients");
               } else {
-                return ListView.builder(
-                  itemCount: listManager.items.length,
-                  itemBuilder: (context, index) {
-                    return _buildIngredientCard(
-                      listManager.items[index],
-                      context,
-                      listManager,
-                    );
-                  },
+                return Column(
+                  children: [
+                    _filters(),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: listManager.items.length,
+                        itemBuilder: (context, index) {
+                          return _buildIngredientCard(
+                            listManager.items[index],
+                            context,
+                            listManager,
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 );
               }
             },
@@ -55,34 +62,46 @@ Center _buildIngredientCard(
     child: Card(
       child: Column(
         children: <Widget>[
-          ListTile(
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.shopping_cart,
-                    color: item.isStarred ? Colors.deepOrange : Colors.blueGrey,
-                  ),
+          Column(
+            children: [
+              ListTile(
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.shopping_cart,
+                        color: item.isStarred
+                            ? Colors.deepOrange
+                            : Colors.blueGrey,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.star,
+                        color: item.isStarred
+                            ? Colors.deepOrange
+                            : Colors.blueGrey,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: Icon(Icons.shelves),
+                      color: _getColor(item.status),
+                    ),
+                    IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
+                  ],
                 ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.star,
-                    color: item.isStarred ? Colors.deepOrange : Colors.blueGrey,
-                  ),
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [Text(item.name)],
                 ),
-              ],
-            ),
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(item.name),
-                item.expire != null
+                subtitle: item.expire != null
                     ? Text(
                         DateFormat("dd.MM.yyyy").format(item.expire!),
-                        textScaler: TextScaler.linear(0.9),
+                        textScaler: TextScaler.linear(1.1),
                         style: TextStyle(
                           color: item.expire!.isAfter(DateTime.now())
                               ? Colors.black
@@ -90,12 +109,57 @@ Center _buildIngredientCard(
                         ),
                       )
                     : Container(),
-              ],
-            ),
-            subtitle: Text(item.description),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),
+                child: Column(
+                  children: [
+                    item.description != ""
+                        ? Padding(
+                            padding: const EdgeInsets.only(bottom: 5),
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: Text(item.description),
+                            ),
+                          )
+                        : Container(),
+                    item.currentAmount != 0
+                        ? Row(
+                            children: [
+                              Text(item.currentAmount.toString()),
+                              SizedBox(width: 4),
+                              Text(item.unit.toString()),
+                            ],
+                          )
+                        : Container(),
+                  ],
+                ),
+              ),
+            ],
           ),
         ],
       ),
     ),
+  );
+}
+
+Color _getColor(int state) {
+  switch (state) {
+    case 0:
+      return Colors.red;
+    case 1:
+      return Colors.yellow;
+    case 2:
+      return Colors.green;
+    case 3:
+      return Colors.blueGrey;
+    default:
+      return Colors.black;
+  }
+}
+
+Center _filters() {
+  return Center(
+    child: Row(children: [Text("Filter dropdown menus placeholder")]),
   );
 }

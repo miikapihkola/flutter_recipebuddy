@@ -22,7 +22,7 @@ class IngredientListManager extends ChangeNotifier {
         mainCategory: "Fluids",
         subCategory: "Dairy",
         description: "lactose free",
-        expire: DateTime.parse("2026-03-08"),
+        expire: DateTime.parse("2026-04-08"),
         status: 2,
         inShoppinglist: true,
         isStarred: true,
