@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../Ingredients_view.dart';
 import 'singleComponents/custom_dropdown.dart';
+import 'singleComponents/custom_divider.dart';
 
 class FilterBar extends StatefulWidget {
   final List<String> categoryList;
@@ -81,10 +82,11 @@ class _FilterBarState extends State<FilterBar> {
     return Center(
       child: Column(
         children: [
-          Container(
+          /*Container(
             padding: EdgeInsets.fromLTRB(5, 2, 5, 10),
             child: Divider(height: 1, thickness: 2, color: Colors.black),
-          ),
+          ),*/
+          CustomDivider(ltrb: [5, 2, 5, 10]),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -178,10 +180,7 @@ class _FilterBarState extends State<FilterBar> {
               }
             },
           ),
-          Container(
-            padding: EdgeInsets.fromLTRB(5, 10, 5, 0),
-            child: Divider(height: 1, thickness: 2, color: Colors.black),
-          ),
+          CustomDivider(ltrb: [5, 10, 5, 0]),
         ],
       ),
     );

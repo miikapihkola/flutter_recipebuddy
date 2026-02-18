@@ -3,6 +3,7 @@ import '../data/ingredient_list_manager.dart';
 import 'package:provider/provider.dart';
 import 'components/FilterBar.dart';
 import 'components/cards/IngredientCard.dart';
+import 'components/singleComponents/custom_divider.dart';
 
 class IngredientsView extends StatefulWidget {
   const IngredientsView({super.key});
@@ -24,9 +25,10 @@ class _IngredientsViewState extends State<IngredientsView> {
     true,
     true,
   ]; // [R, Y, G, unknown]
+
+  bool showSearchBar = false;
   String selectedCategory = "";
   String selectedSubcategory = "";
-  bool showSearchBar = false;
   String selectedTextSearch = "";
   String selectedSortBy = "";
   bool selectedSortByAsc = false;
@@ -99,14 +101,7 @@ class _IngredientsViewState extends State<IngredientsView> {
                                   // Logic
                                 },
                           )
-                        : Container(
-                            padding: EdgeInsets.fromLTRB(5, 2, 5, 0),
-                            child: Divider(
-                              height: 1,
-                              thickness: 2,
-                              color: Colors.black,
-                            ),
-                          ),
+                        : CustomDivider(ltrb: [5, 2, 5, 0]),
                     Expanded(
                       child: ListView.builder(
                         itemCount: listManager.items.length,
