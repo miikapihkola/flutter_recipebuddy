@@ -101,7 +101,7 @@ class _IngredientsViewState extends State<IngredientsView> {
                                   // Logic
                                 },
                           )
-                        : CustomDivider(ltrb: [5, 2, 5, 0]),
+                        : CustomDivider(tb: [2, 0]),
                     Expanded(
                       child: ListView.builder(
                         itemCount: listManager.items.length,

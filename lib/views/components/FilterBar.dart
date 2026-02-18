@@ -82,7 +82,7 @@ class _FilterBarState extends State<FilterBar> {
     return Center(
       child: Column(
         children: [
-          CustomDivider(ltrb: [5, 2, 5, 10]),
+          CustomDivider(tb: [2, 10]),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -176,7 +176,7 @@ class _FilterBarState extends State<FilterBar> {
               }
             },
           ),
-          CustomDivider(ltrb: [5, 10, 5, 0]),
+          CustomDivider(tb: [10, 0]),
         ],
       ),
     );
