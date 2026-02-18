@@ -3,9 +3,20 @@ import '../data/ingredient_list_manager.dart';
 import 'package:provider/provider.dart';
 import '../data/ingredient_item.dart';
 import 'package:intl/intl.dart';
+import 'components/FilterBar.dart';
 
-class IngredientsView extends StatelessWidget {
+class IngredientsView extends StatefulWidget {
   const IngredientsView({super.key});
+
+  @override
+  State<IngredientsView> createState() => _IngredientsViewState();
+}
+
+class _IngredientsViewState extends State<IngredientsView> {
+  List<String> categoryList = ["All", "Unspecified"];
+  List<String> subcategoryList = ["All", "Unspecified"];
+  String? selectedCategory;
+  String? selectedSubcategory;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +40,17 @@ class IngredientsView extends StatelessWidget {
               } else {
                 return Column(
                   children: [
-                    _filters(),
+                    FilterBar(
+                      categoryList: categoryList,
+                      subcategoryList: subcategoryList,
+                      onFilterChanged: (category, subcategory) {
+                        setState(() {
+                          selectedCategory = category;
+                          selectedSubcategory = subcategory;
+                        });
+                        // Logic
+                      },
+                    ),
                     Expanded(
                       child: ListView.builder(
                         itemCount: listManager.items.length,
@@ -156,10 +177,4 @@ Color _getColor(int state) {
     default:
       return Colors.black;
   }
-}
-
-Center _filters() {
-  return Center(
-    child: Row(children: [Text("Filter dropdown menus placeholder")]),
-  );
 }
