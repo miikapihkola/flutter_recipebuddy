@@ -3,7 +3,6 @@ import '../data/ingredient_list_manager.dart';
 import 'package:provider/provider.dart';
 import 'components/FilterBar.dart';
 import 'components/cards/IngredientCard.dart';
-import 'package:flutter/services.dart';
 
 class IngredientsView extends StatefulWidget {
   const IngredientsView({super.key});
@@ -35,7 +34,7 @@ class _IngredientsViewState extends State<IngredientsView> {
   @override
   void initState() {
     super.initState();
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    //SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
     selectedCategory = categoryList.first;
     selectedSubcategory = subcategoryList.first;
