@@ -1,23 +1,39 @@
 import 'package:flutter/material.dart';
+import '../Ingredients_view.dart';
+import 'singleComponents/custom_dropdown.dart';
 
 class FilterBar extends StatefulWidget {
   final List<String> categoryList;
   final List<String> subcategoryList;
-  final Function(String category, String subcategory, String textSearch)
+  final List<String> sortByList;
+  final Function(
+    String category,
+    String subcategory,
+    String textSearch,
+    String sortBy,
+    bool sortByAsc,
+  )
   onFilterChanged;
 
+  final Widget viewType;
   final String initcategory;
   final String initsubcategory;
   final String initTextSearch;
+  final String initSortBy;
+  final bool initSortByAsc;
 
   const FilterBar({
     super.key,
+    required this.viewType,
     required this.categoryList,
     required this.subcategoryList,
     required this.onFilterChanged,
     required this.initcategory,
     required this.initsubcategory,
     required this.initTextSearch,
+    required this.initSortBy,
+    required this.sortByList,
+    required this.initSortByAsc,
   });
 
   @override
@@ -25,11 +41,11 @@ class FilterBar extends StatefulWidget {
 }
 
 class _FilterBarState extends State<FilterBar> {
-  final List<String> sortByList = ["Alphabetical", "Expire"];
-
   String category = "";
   String subcategory = "";
   String textSearch = "";
+  String sortBy = "";
+  bool sortByAsc = false;
 
   late TextEditingController _textSearchController;
 
@@ -39,6 +55,8 @@ class _FilterBarState extends State<FilterBar> {
     category = widget.initcategory;
     subcategory = widget.initsubcategory;
     textSearch = widget.initTextSearch;
+    sortBy = widget.initSortBy;
+    sortByAsc = widget.initSortByAsc;
     _textSearchController = TextEditingController(text: textSearch);
   }
 
@@ -49,82 +67,120 @@ class _FilterBarState extends State<FilterBar> {
   }
 
   void update() {
-    widget.onFilterChanged(category, subcategory, textSearch);
+    widget.onFilterChanged(
+      category,
+      subcategory,
+      textSearch,
+      sortBy,
+      sortByAsc,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    List<DropdownMenuItem<dynamic>> categoryItems = widget.categoryList
-        .map((item) => DropdownMenuItem(value: item, child: Text(item)))
-        .toList();
-    List<DropdownMenuItem<dynamic>> subcategoryItems = widget.subcategoryList
-        .map((item) => DropdownMenuItem(value: item, child: Text(item)))
-        .toList();
-
     return Center(
       child: Column(
         children: [
+          Container(
+            padding: EdgeInsets.fromLTRB(5, 2, 5, 10),
+            child: Divider(height: 1, thickness: 2, color: Colors.black),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Column(
-                children: [
-                  Text("Main Category", textScaler: TextScaler.linear(1.4)),
-                  SizedBox(
-                    width: 200,
-                    child: DropdownButton(
-                      isExpanded: true,
-                      icon: Icon(Icons.arrow_drop_down, color: Colors.black),
-                      underline: Container(height: 2, color: Colors.blueGrey),
-                      padding: EdgeInsets.only(top: 10),
-                      items: categoryItems,
+              SizedBox(
+                width: 200,
+                child: Column(
+                  children: [
+                    Text("Main Category", textScaler: TextScaler.linear(1.4)),
+                    CustomDropdown(
+                      value: category,
+                      list: widget.categoryList,
                       onChanged: (value) {
                         setState(() {
                           category = value;
                           update();
                         });
                       },
-                      value: category,
                     ),
-                  ),
-                ],
+                    SizedBox(height: 16),
+                    TextField(
+                      controller: _textSearchController,
+                      decoration: InputDecoration(labelText: "Search by Text"),
+                      onChanged: (value) {
+                        setState(() {
+                          textSearch = value;
+                          update();
+                        });
+                      },
+                    ),
+                  ],
+                ),
               ),
-              Column(
-                children: [
-                  Text("Sub Category", textScaler: TextScaler.linear(1.4)),
-                  SizedBox(
-                    width: 200,
-                    child: DropdownButton(
-                      isExpanded: true,
-                      icon: Icon(Icons.arrow_drop_down, color: Colors.black),
-                      underline: Container(height: 2, color: Colors.blueGrey),
-                      padding: EdgeInsets.only(top: 10),
-                      items: subcategoryItems,
+              SizedBox(
+                width: 200,
+                child: Column(
+                  children: [
+                    Text("Sub Category", textScaler: TextScaler.linear(1.4)),
+                    CustomDropdown(
+                      value: subcategory,
+                      list: widget.subcategoryList,
                       onChanged: (value) {
                         setState(() {
                           subcategory = value;
                           update();
                         });
                       },
-                      value: subcategory,
                     ),
-                  ),
-                ],
+                    Text("Order by:"),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 150,
+                          child: CustomDropdown(
+                            value: sortBy,
+                            list: widget.sortByList,
+                            onChanged: (value) {
+                              setState(() {
+                                sortBy = value;
+                                update();
+                              });
+                            },
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              sortByAsc = !sortByAsc;
+                              update();
+                            });
+                          },
+                          icon: Icon(
+                            sortByAsc
+                                ? Icons.arrow_upward
+                                : Icons.arrow_downward,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
+          Builder(
+            builder: (context) {
+              switch (widget.viewType) {
+                case IngredientsView():
+                  return Text("placeholder for ingredients filter");
+                default:
+                  return Container();
+              }
+            },
+          ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            child: TextField(
-              controller: _textSearchController,
-              decoration: InputDecoration(labelText: "Search by Text"),
-              onChanged: (value) {
-                setState(() {
-                  textSearch = value;
-                  update();
-                });
-              },
-            ),
+            padding: EdgeInsets.fromLTRB(5, 10, 5, 0),
+            child: Divider(height: 1, thickness: 2, color: Colors.black),
           ),
         ],
       ),

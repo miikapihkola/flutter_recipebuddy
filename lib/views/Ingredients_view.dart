@@ -14,6 +14,7 @@ class IngredientsView extends StatefulWidget {
 class _IngredientsViewState extends State<IngredientsView> {
   final List<String> categoryList = ["All", "Unspecified"];
   final List<String> subcategoryList = ["All", "Unspecified"];
+  final List<String> sortByList = ["Alphabetical", "Expire", "Recent"];
 
   final List<bool> includeShoppinglist = [true, true]; // no, yes
   final List<bool> includeStarred = [true, true]; // no, yes
@@ -26,18 +27,16 @@ class _IngredientsViewState extends State<IngredientsView> {
   String selectedCategory = "";
   String selectedSubcategory = "";
   bool showSearchBar = false;
-
   String selectedTextSearch = "";
-  String sortBy = "Alphabetical";
-  bool sortByAsc = false;
+  String selectedSortBy = "";
+  bool selectedSortByAsc = false;
 
   @override
   void initState() {
     super.initState();
-    //SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-
     selectedCategory = categoryList.first;
     selectedSubcategory = subcategoryList.first;
+    selectedSortBy = sortByList.first;
   }
 
   @override
@@ -73,22 +72,41 @@ class _IngredientsViewState extends State<IngredientsView> {
                   children: [
                     showSearchBar
                         ? FilterBar(
+                            viewType: IngredientsView(),
                             categoryList: categoryList,
                             subcategoryList: subcategoryList,
                             initcategory: selectedCategory,
                             initsubcategory: selectedSubcategory,
                             initTextSearch: selectedTextSearch,
+                            initSortBy: selectedSortBy,
+                            sortByList: sortByList,
+                            initSortByAsc: selectedSortByAsc,
                             onFilterChanged:
-                                (category, subcategory, textSearch) {
+                                (
+                                  category,
+                                  subcategory,
+                                  textSearch,
+                                  sortBy,
+                                  sortByAsc,
+                                ) {
                                   setState(() {
                                     selectedCategory = category;
                                     selectedSubcategory = subcategory;
                                     selectedTextSearch = textSearch;
+                                    selectedSortBy = sortBy;
+                                    selectedSortByAsc = sortByAsc;
                                   });
                                   // Logic
                                 },
                           )
-                        : Container(),
+                        : Container(
+                            padding: EdgeInsets.fromLTRB(5, 2, 5, 0),
+                            child: Divider(
+                              height: 1,
+                              thickness: 2,
+                              color: Colors.black,
+                            ),
+                          ),
                     Expanded(
                       child: ListView.builder(
                         itemCount: listManager.items.length,
