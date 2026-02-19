@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'components/filter/FilterBar.dart';
 import 'components/cards/IngredientCard.dart';
 import 'components/singleComponents/custom_divider.dart';
+import 'subviews/input_ingredient_view.dart';
 
 class IngredientsView extends StatefulWidget {
   const IngredientsView({super.key});
@@ -52,7 +53,14 @@ class _IngredientsViewState extends State<IngredientsView> {
             actions: [
               IconButton(
                 iconSize: Theme.of(context).iconTheme.size,
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => InputIngredientView(),
+                    ),
+                  );
+                },
                 icon: Icon(Icons.add),
               ),
               IconButton(

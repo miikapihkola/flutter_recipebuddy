@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../../data/ingredient_item.dart';
 import '../../../data/ingredient_list_manager.dart';
+import '../../subviews/input_ingredient_view.dart';
 
 Center ingredientCard(
   IngredientItem item,
@@ -45,7 +46,18 @@ Center ingredientCard(
                       icon: Icon(Icons.shelves),
                       color: _getColor(item.status),
                     ),
-                    IconButton(onPressed: () {}, icon: Icon(Icons.edit)),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                InputIngredientView(item: item),
+                          ),
+                        );
+                      },
+                      icon: Icon(Icons.edit),
+                    ),
                   ],
                 ),
                 title: Row(
