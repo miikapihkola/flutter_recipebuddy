@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'singleComponents/custom_divider.dart';
-import 'singleComponents/custom_iconbtn1.dart';
+import '../singleComponents/custom_divider.dart';
+import '../singleComponents/custom_iconbtn1.dart';
 
 class FilterIngredients extends StatefulWidget {
   final List<bool> initIncludeShoppinglist; // no, yes
@@ -107,7 +107,7 @@ class _FilterIngredientsState extends State<FilterIngredients> {
                 },
               ),
               CustomIconBtn1(
-                icon: Icon(Icons.shelves, color: Colors.yellow),
+                icon: Icon(Icons.shelves, color: Colors.amber),
                 bgOn: includeStatus[1],
                 onPressed: () {
                   includeStatus[1] = !includeStatus[1];

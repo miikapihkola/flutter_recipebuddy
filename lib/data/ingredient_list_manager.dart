@@ -73,22 +73,11 @@ class IngredientListManager extends ChangeNotifier {
     notifyListeners();
   }
 
-  void bumpStatus(IngredientItem item, String plusOrMinus) async {
-    if (item.status >= 0 && item.status <= 2) {
-      switch (plusOrMinus) {
-        case "+":
-          item.status = item.status + 1;
-          if (item.status > 2) {
-            item.status = 2;
-          }
-          break;
-        case "-":
-          item.status = item.status - 1;
-          if (item.status < 0) {
-            item.status = 0;
-          }
-          break;
-      }
+  void bumpStatus(IngredientItem item) async {
+    if (item.status == 0) {
+      item.status = 3;
+    } else if (item.status < 4 && item.status > 0) {
+      item.status--;
     } else {
       item.status = 0;
     }
@@ -116,6 +105,8 @@ class IngredientListManager extends ChangeNotifier {
       oldItem.isStarred = item.isStarred;
       oldItem.currentAmount = item.currentAmount;
       oldItem.unit = item.unit;
+      oldItem.amountToBuy = item.amountToBuy;
+      oldItem.buyUnit = item.buyUnit;
 
       notifyListeners();
     }

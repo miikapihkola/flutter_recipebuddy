@@ -22,13 +22,15 @@ Center ingredientCard(
                       onPressed: () {},
                       icon: Icon(
                         Icons.shopping_cart,
-                        color: item.isStarred
+                        color: item.inShoppinglist
                             ? Colors.deepOrange
                             : Colors.blueGrey,
                       ),
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        manager.toggleStarred(item);
+                      },
                       icon: Icon(
                         Icons.star,
                         color: item.isStarred
@@ -37,7 +39,9 @@ Center ingredientCard(
                       ),
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        manager.bumpStatus(item);
+                      },
                       icon: Icon(Icons.shelves),
                       color: _getColor(item.status),
                     ),
@@ -103,7 +107,7 @@ Color _getColor(int state) {
     case 0:
       return Colors.red;
     case 1:
-      return Colors.yellow;
+      return Colors.amber;
     case 2:
       return Colors.green;
     case 3:

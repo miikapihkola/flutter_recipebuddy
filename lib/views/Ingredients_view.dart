@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'components/FilterIngredients.dart';
+import 'components/filter/FilterIngredients.dart';
 import '../data/ingredient_list_manager.dart';
 import 'package:provider/provider.dart';
-import 'components/FilterBar.dart';
+import 'components/filter/FilterBar.dart';
 import 'components/cards/IngredientCard.dart';
 import 'components/singleComponents/custom_divider.dart';
 
