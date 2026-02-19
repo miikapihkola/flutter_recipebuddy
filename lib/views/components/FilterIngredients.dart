@@ -38,6 +38,10 @@ class _FilterIngredientsState extends State<FilterIngredients> {
     includeStatus = widget.initIncludeStatus;
   }
 
+  void update() {
+    widget.onFilterChanged(includeShoppinglist, includeStarred, includeStatus);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -50,23 +54,35 @@ class _FilterIngredientsState extends State<FilterIngredients> {
             children: [
               CustomIconBtn1(
                 icon: Icon(Icons.shopping_cart, color: Colors.blueGrey),
-                bgOn: true,
-                onPressed: () {},
+                bgOn: includeShoppinglist[0],
+                onPressed: () {
+                  includeShoppinglist[0] = !includeShoppinglist[0];
+                  update();
+                },
               ),
               CustomIconBtn1(
                 icon: Icon(Icons.shopping_cart, color: Colors.deepOrange),
-                bgOn: true,
-                onPressed: () {},
+                bgOn: includeShoppinglist[1],
+                onPressed: () {
+                  includeShoppinglist[1] = !includeShoppinglist[1];
+                  update();
+                },
               ),
               CustomIconBtn1(
                 icon: Icon(Icons.star, color: Colors.blueGrey),
-                bgOn: true,
-                onPressed: () {},
+                bgOn: includeStarred[0],
+                onPressed: () {
+                  includeStarred[0] = !includeStarred[0];
+                  update();
+                },
               ),
               CustomIconBtn1(
                 icon: Icon(Icons.star, color: Colors.deepOrange),
-                bgOn: true,
-                onPressed: () {},
+                bgOn: includeStarred[1],
+                onPressed: () {
+                  includeStarred[1] = !includeStarred[1];
+                  update();
+                },
               ),
             ],
           ),
@@ -76,23 +92,35 @@ class _FilterIngredientsState extends State<FilterIngredients> {
             children: [
               CustomIconBtn1(
                 icon: Icon(Icons.shelves, color: Colors.blueGrey),
-                bgOn: true,
-                onPressed: () {},
+                bgOn: includeStatus[3],
+                onPressed: () {
+                  includeStatus[3] = !includeStatus[3];
+                  update();
+                },
               ),
               CustomIconBtn1(
                 icon: Icon(Icons.shelves, color: Colors.red),
-                bgOn: true,
-                onPressed: () {},
+                bgOn: includeStatus[0],
+                onPressed: () {
+                  includeStatus[0] = !includeStatus[0];
+                  update();
+                },
               ),
               CustomIconBtn1(
                 icon: Icon(Icons.shelves, color: Colors.yellow),
-                bgOn: true,
-                onPressed: () {},
+                bgOn: includeStatus[1],
+                onPressed: () {
+                  includeStatus[1] = !includeStatus[1];
+                  update();
+                },
               ),
               CustomIconBtn1(
                 icon: Icon(Icons.shelves, color: Colors.green),
-                bgOn: true,
-                onPressed: () {},
+                bgOn: includeStatus[2],
+                onPressed: () {
+                  includeStatus[2] = !includeStatus[2];
+                  update();
+                },
               ),
             ],
           ),
