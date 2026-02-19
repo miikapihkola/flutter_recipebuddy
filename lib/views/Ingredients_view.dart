@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'components/FilterIngredients.dart';
 import '../data/ingredient_list_manager.dart';
 import 'package:provider/provider.dart';
 import 'components/FilterBar.dart';
@@ -17,9 +18,9 @@ class _IngredientsViewState extends State<IngredientsView> {
   final List<String> subcategoryList = ["All", "Unspecified"];
   final List<String> sortByList = ["Alphabetical", "Expire", "Recent"];
 
-  final List<bool> includeShoppinglist = [true, true]; // no, yes
-  final List<bool> includeStarred = [true, true]; // no, yes
-  final List<bool> includeStatus = [
+  List<bool> selectedIncludeShoppinglist = [true, true]; // no, yes
+  List<bool> selectedIncludeStarred = [true, true]; // no, yes
+  List<bool> selectedIncludeStatus = [
     true,
     true,
     true,
@@ -73,33 +74,57 @@ class _IngredientsViewState extends State<IngredientsView> {
                 return Column(
                   children: [
                     showSearchBar
-                        ? FilterBar(
-                            viewType: IngredientsView(),
-                            categoryList: categoryList,
-                            subcategoryList: subcategoryList,
-                            initcategory: selectedCategory,
-                            initsubcategory: selectedSubcategory,
-                            initTextSearch: selectedTextSearch,
-                            initSortBy: selectedSortBy,
-                            sortByList: sortByList,
-                            initSortByAsc: selectedSortByAsc,
-                            onFilterChanged:
-                                (
-                                  category,
-                                  subcategory,
-                                  textSearch,
-                                  sortBy,
-                                  sortByAsc,
-                                ) {
-                                  setState(() {
-                                    selectedCategory = category;
-                                    selectedSubcategory = subcategory;
-                                    selectedTextSearch = textSearch;
-                                    selectedSortBy = sortBy;
-                                    selectedSortByAsc = sortByAsc;
-                                  });
-                                  // Logic
-                                },
+                        ? Column(
+                            children: [
+                              FilterBar(
+                                viewType: IngredientsView(),
+                                categoryList: categoryList,
+                                subcategoryList: subcategoryList,
+                                initcategory: selectedCategory,
+                                initsubcategory: selectedSubcategory,
+                                initTextSearch: selectedTextSearch,
+                                initSortBy: selectedSortBy,
+                                sortByList: sortByList,
+                                initSortByAsc: selectedSortByAsc,
+                                onFilterChanged:
+                                    (
+                                      category,
+                                      subcategory,
+                                      textSearch,
+                                      sortBy,
+                                      sortByAsc,
+                                    ) {
+                                      setState(() {
+                                        selectedCategory = category;
+                                        selectedSubcategory = subcategory;
+                                        selectedTextSearch = textSearch;
+                                        selectedSortBy = sortBy;
+                                        selectedSortByAsc = sortByAsc;
+                                      });
+                                      // Logic
+                                    },
+                              ),
+                              FilterIngredients(
+                                initIncludeShoppinglist:
+                                    selectedIncludeShoppinglist,
+                                initIncludeStarred: selectedIncludeStarred,
+                                initIncludeStatus: selectedIncludeStatus,
+                                onFilterChanged:
+                                    (
+                                      includeShoppinglist,
+                                      includeStarred,
+                                      includeStatus,
+                                    ) {
+                                      setState(() {
+                                        selectedIncludeShoppinglist =
+                                            includeShoppinglist;
+                                        selectedIncludeStarred = includeStarred;
+                                        selectedIncludeStatus = includeStatus;
+                                      });
+                                      // Logic
+                                    },
+                              ),
+                            ],
                           )
                         : CustomDivider(tb: [2, 0]),
                     Expanded(

@@ -166,17 +166,6 @@ class _FilterBarState extends State<FilterBar> {
               ),
             ],
           ),
-          Builder(
-            builder: (context) {
-              switch (widget.viewType) {
-                case IngredientsView():
-                  return Text("placeholder for ingredients filter");
-                default:
-                  return Container();
-              }
-            },
-          ),
-          CustomDivider(tb: [10, 0]),
         ],
       ),
     );
