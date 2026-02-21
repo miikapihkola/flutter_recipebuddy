@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Ingredients_view.dart';
+import 'ingredients_view.dart';
 import 'pinned_view.dart';
 import 'recipes_view.dart';
 import 'shoppinglist_view.dart';

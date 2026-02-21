@@ -31,6 +31,8 @@ class IngredientItem {
     this.status = status;
     this.amountToBuy = amountToBuy;
     this.currentAmount = currentAmount;
+    this.mainCategory = mainCategory;
+    this.subCategory = subCategory;
   }
 
   int get status => _status;

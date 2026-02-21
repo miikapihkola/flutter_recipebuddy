@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../data/ingredient_item.dart';
 import '../../data/ingredient_list_manager.dart';
+import '../../data/constants.dart';
+import '../components/singleComponents/custom_dropdownother.dart';
 
 class InputIngredientView extends StatelessWidget {
   final IngredientItem? item;
@@ -31,6 +33,9 @@ class InputForm extends StatefulWidget {
 
 class _InputFormState extends State<InputForm> {
   final _formKey = GlobalKey<FormState>();
+  final List<String> categoryList = ["Unspecified", "Fluids"];
+  final List<String> subcategoryList = ["Unspecified", "Alcohol", "Dairy"];
+
   bool isEdit = false;
   int id = 0;
   String name = "";
@@ -48,6 +53,7 @@ class _InputFormState extends State<InputForm> {
 
   @override
   void initState() {
+    super.initState();
     if (widget.item != null) {
       isEdit = true;
       id = widget.item!.id;
@@ -63,20 +69,98 @@ class _InputFormState extends State<InputForm> {
       buyUnit = widget.item!.buyUnit;
       currentAmount = widget.item!.currentAmount;
       unit = widget.item!.unit;
+    } else {
+      mainCategory = categoryList.first;
+      subCategory = subcategoryList.first;
     }
-    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsetsGeometry.symmetric(vertical: 20),
+      padding: const EdgeInsetsGeometry.symmetric(horizontal: 20),
       child: Center(
         child: Form(
           key: _formKey,
           child: Column(
             children: [
-              Text("placeholder"),
+              TextFormField(
+                initialValue: name,
+                decoration: const InputDecoration(
+                  hintText: "Ingredient name",
+                  labelText: "Name",
+                ),
+                onChanged: (value) => {
+                  setState(() {
+                    name = value;
+                  }),
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Give name for the ingredient.";
+                  }
+                  return null;
+                },
+              ),
+              _DatePicker(
+                date: expire,
+                onChanged: (value) {
+                  setState(() {
+                    expire = value;
+                  });
+                },
+              ),
+              TextFormField(
+                initialValue: description,
+                decoration: const InputDecoration(
+                  hintText: "Ingredient description",
+                  labelText: "Description",
+                ),
+                onChanged: (value) => setState(() {
+                  description = value;
+                }),
+                minLines: 1,
+                maxLines: 3,
+              ),
+              Row(
+                children: [
+                  CustomDropdownOther(
+                    options: categoryList,
+                    initialValue: mainCategory,
+                    onChanged: (value) {
+                      setState(() {
+                        mainCategory = value!;
+                      });
+                    },
+                    validator: (value) {
+                      if (value == null || value == "") {
+                        return "Select main category";
+                      }
+                      if (value.toLowerCase() == "all") {
+                        return "Cannot use value 'all'";
+                      }
+                    },
+                  ),
+                  SizedBox(width: 10),
+                  CustomDropdownOther(
+                    options: subcategoryList,
+                    initialValue: subCategory,
+                    onChanged: (value) {
+                      setState(() {
+                        subCategory = value!;
+                      });
+                    },
+                    validator: (value) {
+                      if (value == null || value == "") {
+                        return "Select main category";
+                      }
+                      if (value.toLowerCase() == "all") {
+                        return "Cannot use value 'all'";
+                      }
+                    },
+                  ),
+                ],
+              ),
               Padding(
                 padding: const EdgeInsetsGeometry.symmetric(vertical: 20),
                 child: ElevatedButton(
@@ -116,6 +200,51 @@ class _InputFormState extends State<InputForm> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _DatePicker extends StatefulWidget {
+  final DateTime? date;
+  final ValueChanged<DateTime?> onChanged;
+
+  const _DatePicker({required this.date, required this.onChanged});
+
+  @override
+  State<StatefulWidget> createState() => _DatePickerState();
+}
+
+class _DatePickerState extends State<_DatePicker> {
+  final formatter = DateFormat("dd.MM.yyyy");
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text("Expire: "),
+        Text(widget.date != null ? formatter.format(widget.date!) : "Not set"),
+        TextButton(
+          onPressed: () async {
+            var newDate = await showDatePicker(
+              context: context,
+              firstDate: DateTime(2000),
+              lastDate: DateTime(2100),
+            );
+            if (newDate == null) {
+              return;
+            }
+            widget.onChanged(newDate);
+          },
+          child: const Text("Edit"),
+        ),
+        if (widget.date != null)
+          TextButton(
+            onPressed: () {
+              widget.onChanged(null);
+            },
+            child: const Text("Remove"),
+          ),
+      ],
     );
   }
 }

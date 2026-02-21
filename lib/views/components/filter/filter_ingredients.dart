@@ -22,7 +22,7 @@ class FilterIngredients extends StatefulWidget {
   });
 
   @override
-  _FilterIngredientsState createState() => _FilterIngredientsState();
+  State<FilterIngredients> createState() => _FilterIngredientsState();
 }
 
 class _FilterIngredientsState extends State<FilterIngredients> {
