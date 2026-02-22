@@ -203,13 +203,12 @@ class _InputFormState extends State<InputForm> {
                 padding: const EdgeInsetsGeometry.symmetric(vertical: 20),
                 child: ElevatedButton(
                   onPressed: () {
-                    if (name == "" || name.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text("Please enter ingredient name")),
-                      );
+                    if (!_formKey.currentState!.validate()) {
                       return;
                     }
                     if (mainCategory == dropDownOtherAddNewPlaceholder ||
+                        mainCategory.toLowerCase() ==
+                            dropDownOtherVisibleText.toLowerCase() ||
                         mainCategory.isEmpty ||
                         mainCategory.toLowerCase() ==
                             categoryAll.toLowerCase()) {
@@ -223,6 +222,8 @@ class _InputFormState extends State<InputForm> {
                       return;
                     }
                     if (subCategory == dropDownOtherAddNewPlaceholder ||
+                        subCategory.toLowerCase() ==
+                            dropDownOtherVisibleText.toLowerCase() ||
                         subCategory.isEmpty ||
                         subCategory.toLowerCase() ==
                             categoryAll.toLowerCase()) {

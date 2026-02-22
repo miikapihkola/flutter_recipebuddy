@@ -60,9 +60,10 @@ Center ingredientCard(
                     ),
                   ],
                 ),
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [Text(item.name)],
+                title: Text(
+                  item.name,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 3,
                 ),
                 subtitle: item.expire != null
                     ? Row(

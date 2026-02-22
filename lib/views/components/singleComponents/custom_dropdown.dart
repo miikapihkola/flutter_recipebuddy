@@ -17,16 +17,31 @@ class CustomDropdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<DropdownMenuItem<dynamic>> items = list
-        .map((item) => DropdownMenuItem(value: item, child: Text(item)))
+        .map(
+          (item) =>
+              DropdownMenuItem(value: item, child: Text(item, softWrap: true)),
+        )
         .toList();
     return DropdownButton(
       isExpanded: true,
+      itemHeight: null,
       icon: Icon(Icons.arrow_drop_down, color: Colors.black),
       underline: Container(height: 2, color: Colors.blueGrey),
       padding: EdgeInsets.only(top: 10),
       items: items,
       onChanged: disabled ? null : onChanged,
       value: value,
+      selectedItemBuilder: (context) => list
+          .map(
+            (item) => SizedBox(
+              height: 48,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(item, overflow: TextOverflow.ellipsis, maxLines: 1),
+              ),
+            ),
+          )
+          .toList(),
     );
   }
 }

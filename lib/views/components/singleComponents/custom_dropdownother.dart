@@ -61,7 +61,7 @@ class _CustomDropdownOtherState extends State<CustomDropdownOther> {
     items.add(
       DropdownMenuItem<String>(
         value: dropDownOtherAddNewPlaceholder,
-        child: Text("Add new +"),
+        child: Text(dropDownOtherVisibleText),
       ),
     );
     return Expanded(
@@ -70,6 +70,7 @@ class _CustomDropdownOtherState extends State<CustomDropdownOther> {
         child: Column(
           children: [
             DropdownButtonFormField<String>(
+              isExpanded: true,
               initialValue: selectedValue,
               items: items,
               onChanged: widget.disabled
@@ -86,6 +87,19 @@ class _CustomDropdownOtherState extends State<CustomDropdownOther> {
                       }
                     },
               validator: widget.validator,
+              selectedItemBuilder: (context) {
+                return items
+                    .map(
+                      (item) => Text(
+                        item.value == dropDownOtherAddNewPlaceholder
+                            ? dropDownOtherVisibleText
+                            : item.value ?? "",
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    )
+                    .toList();
+              },
             ),
             if (selectedValue == dropDownOtherAddNewPlaceholder)
               TextFormField(
