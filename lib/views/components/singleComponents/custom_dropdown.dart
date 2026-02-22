@@ -4,12 +4,14 @@ class CustomDropdown extends StatelessWidget {
   final String? value;
   final List<String> list;
   final Function(dynamic) onChanged;
+  final bool disabled;
 
   const CustomDropdown({
     super.key,
     required this.value,
     required this.list,
     required this.onChanged,
+    this.disabled = false,
   });
 
   @override
@@ -23,7 +25,7 @@ class CustomDropdown extends StatelessWidget {
       underline: Container(height: 2, color: Colors.blueGrey),
       padding: EdgeInsets.only(top: 10),
       items: items,
-      onChanged: onChanged,
+      onChanged: disabled ? null : onChanged,
       value: value,
     );
   }

@@ -47,6 +47,9 @@ class _FilterBarState extends State<FilterBar> {
   String sortBy = "";
   bool sortByAsc = false;
 
+  bool get isSubCategoryDisabled =>
+      category == "All" || category == "Unspecified";
+
   late TextEditingController _textSearchController;
 
   @override
@@ -96,6 +99,7 @@ class _FilterBarState extends State<FilterBar> {
                       onChanged: (value) {
                         setState(() {
                           category = value;
+                          subcategory = widget.subcategoryList.first;
                           update();
                         });
                       },
@@ -104,6 +108,7 @@ class _FilterBarState extends State<FilterBar> {
                     TextField(
                       controller: _textSearchController,
                       decoration: InputDecoration(labelText: "Search by Text"),
+
                       onChanged: (value) {
                         setState(() {
                           textSearch = value;
@@ -122,12 +127,15 @@ class _FilterBarState extends State<FilterBar> {
                     CustomDropdown(
                       value: subcategory,
                       list: widget.subcategoryList,
-                      onChanged: (value) {
-                        setState(() {
-                          subcategory = value;
-                          update();
-                        });
-                      },
+                      disabled: isSubCategoryDisabled,
+                      onChanged: isSubCategoryDisabled
+                          ? (_) {}
+                          : (value) {
+                              setState(() {
+                                subcategory = value;
+                                update();
+                              });
+                            },
                     ),
                     Text("Order by:"),
                     Row(

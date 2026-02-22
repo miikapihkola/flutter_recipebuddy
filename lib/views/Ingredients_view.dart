@@ -15,8 +15,6 @@ class IngredientsView extends StatefulWidget {
 }
 
 class _IngredientsViewState extends State<IngredientsView> {
-  final List<String> categoryList = ["All", "Unspecified"];
-  final List<String> subcategoryList = ["All", "Unspecified"];
   final List<String> sortByList = ["Alphabetical", "Expire", "Recent"];
 
   List<bool> selectedIncludeShoppinglist = [true, true]; // no, yes
@@ -29,8 +27,8 @@ class _IngredientsViewState extends State<IngredientsView> {
   ]; // [R, Y, G, unknown]
 
   bool showSearchBar = false;
-  String selectedCategory = "";
-  String selectedSubcategory = "";
+  String selectedCategory = "All";
+  String selectedSubcategory = "All";
   String selectedTextSearch = "";
   String selectedSortBy = "";
   bool selectedSortByAsc = false;
@@ -38,15 +36,46 @@ class _IngredientsViewState extends State<IngredientsView> {
   @override
   void initState() {
     super.initState();
-    selectedCategory = categoryList.first;
-    selectedSubcategory = subcategoryList.first;
     selectedSortBy = sortByList.first;
+  }
+
+  List<String> _buildCategoryList(IngredientListManager listManager) {
+    final unique = listManager.items
+        .map((i) => i.mainCategory)
+        .where((c) => c != "Unspecified")
+        .toSet()
+        .toList();
+    return ["All", ...unique, "Unspecified"];
+  }
+
+  List<String> _buildSubcategoryList(IngredientListManager listManager) {
+    if (selectedCategory == "All" || selectedCategory == "Unspecified") {
+      final unique = listManager.items
+          .map((i) => i.subCategory)
+          .where((c) => c != "Unspecified")
+          .toSet()
+          .toList();
+      return ["All", ...unique, "Unspecified"];
+    } else {
+      final unique = listManager.items
+          .where((i) => i.mainCategory == selectedCategory)
+          .map((i) => i.subCategory)
+          .where((c) => c != "Unspecified")
+          .toSet()
+          .toList();
+      return ["All", ...unique, "Unspecified"];
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<IngredientListManager>(
       builder: (context, listManager, child) {
+        final categoryList = _buildCategoryList(listManager);
+        final subcategoryList = _buildSubcategoryList(listManager);
+        if (!subcategoryList.contains(selectedSubcategory)) {
+          selectedSubcategory = subcategoryList.first;
+        }
         return Scaffold(
           appBar: AppBar(
             title: const Text("Ingredients"),
