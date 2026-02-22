@@ -124,6 +124,8 @@ class _InputFormState extends State<InputForm> {
                   }
                   return null;
                 },
+                minLines: 1,
+                maxLines: 3,
               ),
               CustomDatePicker(
                 label: "Expire",
