@@ -33,8 +33,8 @@ class InputForm extends StatefulWidget {
 
 class _InputFormState extends State<InputForm> {
   final _formKey = GlobalKey<FormState>();
-  final List<String> categoryList = ["Unspecified", "Fluids"];
-  final List<String> subcategoryList = ["Unspecified", "Alcohol", "Dairy"];
+  List<String> categoryList = ["Unspecified"];
+  List<String> subcategoryList = ["Unspecified"];
 
   bool isEdit = false;
   int id = 0;
@@ -54,6 +54,16 @@ class _InputFormState extends State<InputForm> {
   @override
   void initState() {
     super.initState();
+
+    final manager = Provider.of<IngredientListManager>(context, listen: false);
+
+    final uniqueMain = manager.items
+        .map((i) => i.mainCategory)
+        .where((c) => c != "Unspecified")
+        .toSet()
+        .toList();
+    categoryList.addAll(uniqueMain);
+
     if (widget.item != null) {
       isEdit = true;
       id = widget.item!.id;
@@ -73,6 +83,24 @@ class _InputFormState extends State<InputForm> {
       mainCategory = categoryList.first;
       subCategory = subcategoryList.first;
     }
+
+    _updateSubcategoryList(manager);
+  }
+
+  void _updateSubcategoryList(IngredientListManager manager) {
+    final uniqueSub = manager.items
+        .where((i) => i.mainCategory == mainCategory)
+        .map((i) => i.subCategory)
+        .where((c) => c != "Unspecified")
+        .toSet()
+        .toList();
+
+    setState(() {
+      subcategoryList = ["Unspecified", ...uniqueSub];
+      if (!subcategoryList.contains(subCategory)) {
+        subCategory = subcategoryList.first;
+      }
+    });
   }
 
   @override
@@ -122,15 +150,28 @@ class _InputFormState extends State<InputForm> {
                 minLines: 1,
                 maxLines: 3,
               ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [Text("Main Category"), Text("Sub Category")],
+              ),
               Row(
                 children: [
                   CustomDropdownOther(
                     options: categoryList,
                     initialValue: mainCategory,
                     onChanged: (value) {
-                      setState(() {
-                        mainCategory = value!;
-                      });
+                      if (value != "other91535placeholder") {
+                        setState(() {
+                          mainCategory = value!;
+                          subCategory = subcategoryList.first;
+                        });
+                        final manager = Provider.of<IngredientListManager>(
+                          context,
+                          listen: false,
+                        );
+                        _updateSubcategoryList(manager);
+                      }
                     },
                     validator: (value) {
                       if (value == null || value == "") {
@@ -139,12 +180,16 @@ class _InputFormState extends State<InputForm> {
                       if (value.toLowerCase() == "all") {
                         return "Cannot use value 'all'";
                       }
+                      return null;
                     },
                   ),
                   SizedBox(width: 10),
                   CustomDropdownOther(
                     options: subcategoryList,
                     initialValue: subCategory,
+                    disabled:
+                        mainCategory == categoryList.first ||
+                        mainCategory.isEmpty,
                     onChanged: (value) {
                       setState(() {
                         subCategory = value!;
@@ -157,6 +202,7 @@ class _InputFormState extends State<InputForm> {
                       if (value.toLowerCase() == "all") {
                         return "Cannot use value 'all'";
                       }
+                      return null;
                     },
                   ),
                 ],
@@ -165,6 +211,34 @@ class _InputFormState extends State<InputForm> {
                 padding: const EdgeInsetsGeometry.symmetric(vertical: 20),
                 child: ElevatedButton(
                   onPressed: () {
+                    if (name == "" || name.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Please enter ingredient name")),
+                      );
+                      return;
+                    }
+                    if (mainCategory == "other91535placeholder" ||
+                        mainCategory.isEmpty ||
+                        mainCategory.toLowerCase() == "all") {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            "Please enter valid main category name",
+                          ),
+                        ),
+                      );
+                      return;
+                    }
+                    if (subCategory == "other91535placeholder" ||
+                        subCategory.isEmpty ||
+                        subCategory.toLowerCase() == "all") {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Please enter valid sub category name"),
+                        ),
+                      );
+                      return;
+                    }
                     IngredientItem item = IngredientItem(
                       id: id,
                       name: name,
