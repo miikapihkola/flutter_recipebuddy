@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../singleComponents/custom_dropdown.dart';
 import '../singleComponents/custom_divider.dart';
+import '../../../data/constants.dart';
 
 class FilterBar extends StatefulWidget {
   final List<String> categoryList;
@@ -48,7 +49,7 @@ class _FilterBarState extends State<FilterBar> {
   bool sortByAsc = false;
 
   bool get isSubCategoryDisabled =>
-      category == "All" || category == "Unspecified";
+      category == categoryAll || category == categoryUnspecified;
 
   late TextEditingController _textSearchController;
 

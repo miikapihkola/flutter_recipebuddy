@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../data/constants.dart';
 
 class CustomDropdownOther extends StatefulWidget {
   final List<String> options;
@@ -21,13 +22,13 @@ class CustomDropdownOther extends StatefulWidget {
 }
 
 class _CustomDropdownOtherState extends State<CustomDropdownOther> {
-  String selectedValue = "Unspecified";
+  String selectedValue = categoryUnspecified;
   final TextEditingController _textController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    final allValues = [...widget.options, "other91535placeholder"];
+    final allValues = [...widget.options, dropDownOtherAddNewPlaceholder];
     selectedValue = allValues.contains(widget.initialValue)
         ? widget.initialValue!
         : widget.options.first;
@@ -37,7 +38,7 @@ class _CustomDropdownOtherState extends State<CustomDropdownOther> {
   void didUpdateWidget(covariant CustomDropdownOther oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.initialValue != widget.initialValue) {
-      final allValues = [...widget.options, "other91535placeholder"];
+      final allValues = [...widget.options, dropDownOtherAddNewPlaceholder];
       if (allValues.contains(widget.initialValue)) {
         setState(() {
           selectedValue = widget.initialValue!;
@@ -59,7 +60,7 @@ class _CustomDropdownOtherState extends State<CustomDropdownOther> {
         .toList();
     items.add(
       DropdownMenuItem<String>(
-        value: "other91535placeholder",
+        value: dropDownOtherAddNewPlaceholder,
         child: Text("Add new +"),
       ),
     );
@@ -78,15 +79,15 @@ class _CustomDropdownOtherState extends State<CustomDropdownOther> {
                         selectedValue = value!;
                         _textController.clear();
                       });
-                      if (value != "other91535placeholder") {
+                      if (value != dropDownOtherAddNewPlaceholder) {
                         widget.onChanged(value);
                       } else {
-                        widget.onChanged("other91535placeholder");
+                        widget.onChanged(dropDownOtherAddNewPlaceholder);
                       }
                     },
               validator: widget.validator,
             ),
-            if (selectedValue == "other91535placeholder")
+            if (selectedValue == dropDownOtherAddNewPlaceholder)
               TextFormField(
                 controller: _textController,
                 decoration: InputDecoration(labelText: "New category"),

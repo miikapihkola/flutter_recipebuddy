@@ -1,3 +1,5 @@
+import 'constants.dart';
+
 class IngredientItem {
   int id = 0;
   String name = "";
@@ -66,7 +68,7 @@ class IngredientItem {
   set mainCategory(String value) {
     if (value.isEmpty) {
       // later add check if it is not existing category
-      _mainCategory = "Unspecified";
+      _mainCategory = categoryUnspecified;
     } else {
       _mainCategory = value;
     }
@@ -76,7 +78,7 @@ class IngredientItem {
   set subCategory(String value) {
     if (value.isEmpty) {
       // later add check if it is not existing category
-      _subCategory = "Unspecified";
+      _subCategory = categoryUnspecified;
     } else {
       _subCategory = value;
     }

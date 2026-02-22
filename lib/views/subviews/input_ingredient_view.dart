@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../data/ingredient_item.dart';
 import '../../data/ingredient_list_manager.dart';
 import '../../data/constants.dart';
 import '../components/singleComponents/custom_dropdownother.dart';
+import '../components/singleComponents/custom_datepicker.dart';
+import '../../data/category_list_builder.dart';
 
 class InputIngredientView extends StatelessWidget {
   final IngredientItem? item;
@@ -33,8 +34,8 @@ class InputForm extends StatefulWidget {
 
 class _InputFormState extends State<InputForm> {
   final _formKey = GlobalKey<FormState>();
-  List<String> categoryList = ["Unspecified"];
-  List<String> subcategoryList = ["Unspecified"];
+  List<String> categoryList = [categoryUnspecified];
+  List<String> subcategoryList = [categoryUnspecified];
 
   bool isEdit = false;
   int id = 0;
@@ -57,13 +58,6 @@ class _InputFormState extends State<InputForm> {
 
     final manager = Provider.of<IngredientListManager>(context, listen: false);
 
-    final uniqueMain = manager.items
-        .map((i) => i.mainCategory)
-        .where((c) => c != "Unspecified")
-        .toSet()
-        .toList();
-    categoryList.addAll(uniqueMain);
-
     if (widget.item != null) {
       isEdit = true;
       id = widget.item!.id;
@@ -84,19 +78,20 @@ class _InputFormState extends State<InputForm> {
       subCategory = subcategoryList.first;
     }
 
-    _updateSubcategoryList(manager);
+    categoryList = CategoryListBuilder.buildInputCategoryList(manager);
+    subcategoryList = CategoryListBuilder.buildInputSubcategoryList(
+      manager,
+      mainCategory,
+    );
   }
 
-  void _updateSubcategoryList(IngredientListManager manager) {
-    final uniqueSub = manager.items
-        .where((i) => i.mainCategory == mainCategory)
-        .map((i) => i.subCategory)
-        .where((c) => c != "Unspecified")
-        .toSet()
-        .toList();
-
+  void _updateSubcategoryList() {
+    final manager = Provider.of<IngredientListManager>(context, listen: false);
     setState(() {
-      subcategoryList = ["Unspecified", ...uniqueSub];
+      subcategoryList = CategoryListBuilder.buildInputSubcategoryList(
+        manager,
+        mainCategory,
+      );
       if (!subcategoryList.contains(subCategory)) {
         subCategory = subcategoryList.first;
       }
@@ -130,7 +125,8 @@ class _InputFormState extends State<InputForm> {
                   return null;
                 },
               ),
-              _DatePicker(
+              CustomDatePicker(
+                label: "Expire",
                 date: expire,
                 onChanged: (value) {
                   setState(() {
@@ -161,24 +157,20 @@ class _InputFormState extends State<InputForm> {
                     options: categoryList,
                     initialValue: mainCategory,
                     onChanged: (value) {
-                      if (value != "other91535placeholder") {
+                      if (value != dropDownOtherAddNewPlaceholder) {
                         setState(() {
                           mainCategory = value!;
                           subCategory = subcategoryList.first;
                         });
-                        final manager = Provider.of<IngredientListManager>(
-                          context,
-                          listen: false,
-                        );
-                        _updateSubcategoryList(manager);
+                        _updateSubcategoryList();
                       }
                     },
                     validator: (value) {
                       if (value == null || value == "") {
                         return "Select main category";
                       }
-                      if (value.toLowerCase() == "all") {
-                        return "Cannot use value 'all'";
+                      if (value.toLowerCase() == categoryAll.toLowerCase()) {
+                        return "Cannot use value '$categoryAll'";
                       }
                       return null;
                     },
@@ -199,8 +191,8 @@ class _InputFormState extends State<InputForm> {
                       if (value == null || value == "") {
                         return "Select main category";
                       }
-                      if (value.toLowerCase() == "all") {
-                        return "Cannot use value 'all'";
+                      if (value.toLowerCase() == categoryAll.toLowerCase()) {
+                        return "Cannot use value '$categoryAll'";
                       }
                       return null;
                     },
@@ -217,9 +209,10 @@ class _InputFormState extends State<InputForm> {
                       );
                       return;
                     }
-                    if (mainCategory == "other91535placeholder" ||
+                    if (mainCategory == dropDownOtherAddNewPlaceholder ||
                         mainCategory.isEmpty ||
-                        mainCategory.toLowerCase() == "all") {
+                        mainCategory.toLowerCase() ==
+                            categoryAll.toLowerCase()) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
@@ -229,9 +222,10 @@ class _InputFormState extends State<InputForm> {
                       );
                       return;
                     }
-                    if (subCategory == "other91535placeholder" ||
+                    if (subCategory == dropDownOtherAddNewPlaceholder ||
                         subCategory.isEmpty ||
-                        subCategory.toLowerCase() == "all") {
+                        subCategory.toLowerCase() ==
+                            categoryAll.toLowerCase()) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text("Please enter valid sub category name"),
@@ -274,51 +268,6 @@ class _InputFormState extends State<InputForm> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _DatePicker extends StatefulWidget {
-  final DateTime? date;
-  final ValueChanged<DateTime?> onChanged;
-
-  const _DatePicker({required this.date, required this.onChanged});
-
-  @override
-  State<StatefulWidget> createState() => _DatePickerState();
-}
-
-class _DatePickerState extends State<_DatePicker> {
-  final formatter = DateFormat("dd.MM.yyyy");
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text("Expire: "),
-        Text(widget.date != null ? formatter.format(widget.date!) : "Not set"),
-        TextButton(
-          onPressed: () async {
-            var newDate = await showDatePicker(
-              context: context,
-              firstDate: DateTime(2000),
-              lastDate: DateTime(2100),
-            );
-            if (newDate == null) {
-              return;
-            }
-            widget.onChanged(newDate);
-          },
-          child: const Text("Edit"),
-        ),
-        if (widget.date != null)
-          TextButton(
-            onPressed: () {
-              widget.onChanged(null);
-            },
-            child: const Text("Remove"),
-          ),
-      ],
     );
   }
 }
