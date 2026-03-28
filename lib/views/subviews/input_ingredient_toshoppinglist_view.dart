@@ -79,7 +79,11 @@ class _InputFormState extends State<InputForm> {
                             labelText: "Current amount",
                           ),
                           onChanged: (value) => setState(() {
-                            currentAmount = double.parse(value);
+                            if (value.isNotEmpty) {
+                              currentAmount = double.parse(value);
+                            } else {
+                              currentAmount = 0.0;
+                            }
                           }),
                         ),
                         TextFormField(
@@ -96,7 +100,11 @@ class _InputFormState extends State<InputForm> {
                             labelText: "Amount to buy",
                           ),
                           onChanged: (value) => setState(() {
-                            amountToBuy = double.parse(value);
+                            if (value.isNotEmpty) {
+                              amountToBuy = double.parse(value);
+                            } else {
+                              currentAmount = 0.0;
+                            }
                           }),
                         ),
                       ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_recipebuddy/data/ingredient_item.dart';
 import 'components/filter/filter_ingredients.dart';
 import '../data/ingredient_list_manager.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +34,80 @@ class _IngredientsViewState extends State<IngredientsView> {
   String selectedSubcategory = categoryAll;
   String selectedTextSearch = "";
   String selectedSortBy = "";
-  bool selectedSortByAsc = false;
+  bool selectedSortByAsc = true;
+
+  // Filtered list
+  List<IngredientItem> _getFilteredList(List<IngredientItem> items) {
+    return items.where((item) {
+      // Text search
+      if (selectedTextSearch.isNotEmpty &&
+          !item.name.toLowerCase().contains(selectedTextSearch.toLowerCase()) &&
+          !item.description.toLowerCase().contains(
+            selectedTextSearch.toLowerCase(),
+          )) {
+        return false;
+      }
+
+      // Category
+      if (selectedCategory != categoryAll &&
+          item.mainCategory != selectedCategory) {
+        return false;
+      }
+
+      // Subcategory
+      if (selectedSubcategory != categoryAll &&
+          item.subCategory != selectedSubcategory) {
+        return false;
+      }
+
+      // Shoppinglist [false, true]
+      if (!selectedIncludeShoppinglist[item.inShoppinglist ? 1 : 0]) {
+        return false;
+      }
+
+      // Starred [false, true]
+      if (!selectedIncludeStarred[item.isStarred ? 1 : 0]) {
+        return false;
+      }
+
+      // Status [R, Y, G, unknown] -> [0, 1, 2, 3]
+      if (item.status < selectedIncludeStatus.length &&
+          !selectedIncludeStatus[item.status]) {
+        return false;
+      }
+
+      return true;
+    }).toList();
+  }
+
+  List<IngredientItem> _getSortedList(List<IngredientItem> items) {
+    final sorted = List<IngredientItem>.from(items);
+    sorted.sort((a, b) {
+      int compare;
+      switch (selectedSortBy) {
+        case "Alphabetical":
+          compare = a.name.compareTo(b.name);
+          break;
+        case "Expire":
+          if (a.expire == null && b.expire == null)
+            compare = 0;
+          else if (a.expire == null)
+            compare = 1;
+          else if (b.expire == null)
+            compare = -1;
+          else
+            compare = a.expire!.compareTo(b.expire!);
+          break;
+        case "Recent":
+          compare = a.id.compareTo(b.id);
+          break;
+        default:
+          compare = 0;
+      }
+      return selectedSortByAsc ? compare : -compare;
+    });
+    return sorted;
+  }
 
   @override
   void initState() {
@@ -45,6 +119,7 @@ class _IngredientsViewState extends State<IngredientsView> {
   Widget build(BuildContext context) {
     return Consumer<IngredientListManager>(
       builder: (context, listManager, child) {
+        final displayList = _getSortedList(_getFilteredList(listManager.items));
         final categoryList = CategoryListBuilder.buildFilterCategoryList(
           listManager,
         );
@@ -145,10 +220,10 @@ class _IngredientsViewState extends State<IngredientsView> {
                         : CustomDivider(tb: [2, 0]),
                     Expanded(
                       child: ListView.builder(
-                        itemCount: listManager.items.length,
+                        itemCount: displayList.length,
                         itemBuilder: (context, index) {
                           return ingredientCard(
-                            listManager.items[index],
+                            displayList[index],
                             context,
                             listManager,
                           );
