@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_recipebuddy/views/components/singleComponents/custom_dropdownunit.dart';
 import 'package:provider/provider.dart';
 import '../../data/ingredient_item.dart';
 import '../../data/ingredient_list_manager.dart';
@@ -201,6 +203,127 @@ class _InputFormState extends State<InputForm> {
                   ),
                 ],
               ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          initialValue: currentAmount.toString(),
+                          keyboardType: TextInputType.numberWithOptions(
+                            decimal: true,
+                          ),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(
+                              RegExp(r'[0-9.]'),
+                            ),
+                          ],
+                          decoration: InputDecoration(
+                            labelText: "Enter current amount",
+                          ),
+                          onChanged: (value) => setState(() {
+                            currentAmount = double.parse(value);
+                          }),
+                        ),
+                        inShoppinglist
+                            ? TextFormField(
+                                initialValue: amountToBuy.toString(),
+                                keyboardType: TextInputType.numberWithOptions(
+                                  decimal: true,
+                                ),
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.allow(
+                                    RegExp(r'[0-9.]'),
+                                  ),
+                                ],
+                                decoration: InputDecoration(
+                                  labelText: "Enter buy amount",
+                                ),
+                                onChanged: (value) => setState(() {
+                                  amountToBuy = double.parse(value);
+                                }),
+                              )
+                            : Container(),
+                      ],
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      SizedBox(height: 10),
+                      CustomDropdownUnit(
+                        value: unit,
+                        onChanged: (value) {
+                          setState(() {
+                            unit = value;
+                          });
+                        },
+                      ),
+                      inShoppinglist ? SizedBox(height: 10) : Container(),
+                      inShoppinglist
+                          ? CustomDropdownUnit(
+                              value: buyUnit,
+                              onChanged: (value) {
+                                setState(() {
+                                  buyUnit = value;
+                                });
+                              },
+                            )
+                          : Container(),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      SizedBox(height: 20),
+                      Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                inShoppinglist = !inShoppinglist;
+                              });
+                            },
+                            icon: Icon(
+                              Icons.shopping_cart,
+                              color: inShoppinglist
+                                  ? Colors.deepOrange
+                                  : Colors.blueGrey,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                isStarred = !isStarred;
+                              });
+                            },
+                            icon: Icon(
+                              Icons.star,
+                              color: isStarred
+                                  ? Colors.deepOrange
+                                  : Colors.blueGrey,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              setState(() {
+                                if (status == 0) {
+                                  status = 3;
+                                } else if (status < 4 && status > 0) {
+                                  status--;
+                                } else {
+                                  status = 0;
+                                }
+                              });
+                            },
+                            icon: Icon(Icons.shelves),
+                            color: _getColor(status),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
               Padding(
                 padding: const EdgeInsetsGeometry.symmetric(vertical: 20),
                 child: ElevatedButton(
@@ -272,5 +395,20 @@ class _InputFormState extends State<InputForm> {
         ),
       ),
     );
+  }
+}
+
+Color _getColor(int state) {
+  switch (state) {
+    case 0:
+      return Colors.red;
+    case 1:
+      return Colors.amber;
+    case 2:
+      return Colors.green;
+    case 3:
+      return Colors.blueGrey;
+    default:
+      return Colors.black;
   }
 }
