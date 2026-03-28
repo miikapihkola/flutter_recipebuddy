@@ -334,69 +334,121 @@ class _InputFormState extends State<InputForm> {
                 ],
               ),
               Padding(
-                padding: const EdgeInsetsGeometry.symmetric(vertical: 20),
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (!_formKey.currentState!.validate()) {
-                      return;
-                    }
-                    if (mainCategory == dropDownOtherAddNewPlaceholder ||
-                        mainCategory.toLowerCase() ==
-                            dropDownOtherVisibleText.toLowerCase() ||
-                        mainCategory.isEmpty ||
-                        mainCategory.toLowerCase() ==
-                            categoryAll.toLowerCase()) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            "Please enter valid main category name",
-                          ),
-                        ),
-                      );
-                      return;
-                    }
-                    if (subCategory == dropDownOtherAddNewPlaceholder ||
-                        subCategory.toLowerCase() ==
-                            dropDownOtherVisibleText.toLowerCase() ||
-                        subCategory.isEmpty ||
-                        subCategory.toLowerCase() ==
-                            categoryAll.toLowerCase()) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("Please enter valid sub category name"),
-                        ),
-                      );
-                      return;
-                    }
-                    IngredientItem item = IngredientItem(
-                      id: id,
-                      name: name,
-                      mainCategory: mainCategory,
-                      subCategory: subCategory,
-                      description: description,
-                      expire: expire,
-                      status: status,
-                      inShoppinglist: inShoppinglist,
-                      isStarred: isStarred,
-                      amountToBuy: amountToBuy,
-                      buyUnit: buyUnit,
-                      currentAmount: currentAmount,
-                      unit: unit,
-                    );
-                    if (isEdit) {
-                      Provider.of<IngredientListManager>(
-                        context,
-                        listen: false,
-                      ).update(item);
-                    } else {
-                      Provider.of<IngredientListManager>(
-                        context,
-                        listen: false,
-                      ).add(item);
-                    }
-                    Navigator.pop(context);
-                  },
-                  child: isEdit ? const Text("Edit") : const Text("Add"),
+                padding: const EdgeInsetsGeometry.symmetric(
+                  vertical: 40,
+                  horizontal: 40,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        if (!_formKey.currentState!.validate()) {
+                          return;
+                        }
+                        if (mainCategory == dropDownOtherAddNewPlaceholder ||
+                            mainCategory.toLowerCase() ==
+                                dropDownOtherVisibleText.toLowerCase() ||
+                            mainCategory.isEmpty ||
+                            mainCategory.toLowerCase() ==
+                                categoryAll.toLowerCase()) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                "Please enter valid main category name",
+                              ),
+                            ),
+                          );
+                          return;
+                        }
+                        if (subCategory == dropDownOtherAddNewPlaceholder ||
+                            subCategory.toLowerCase() ==
+                                dropDownOtherVisibleText.toLowerCase() ||
+                            subCategory.isEmpty ||
+                            subCategory.toLowerCase() ==
+                                categoryAll.toLowerCase()) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                "Please enter valid sub category name",
+                              ),
+                            ),
+                          );
+                          return;
+                        }
+                        IngredientItem item = IngredientItem(
+                          id: id,
+                          name: name,
+                          mainCategory: mainCategory,
+                          subCategory: subCategory,
+                          description: description,
+                          expire: expire,
+                          status: status,
+                          inShoppinglist: inShoppinglist,
+                          isStarred: isStarred,
+                          amountToBuy: amountToBuy,
+                          buyUnit: buyUnit,
+                          currentAmount: currentAmount,
+                          unit: unit,
+                        );
+                        if (isEdit) {
+                          Provider.of<IngredientListManager>(
+                            context,
+                            listen: false,
+                          ).update(item);
+                        } else {
+                          Provider.of<IngredientListManager>(
+                            context,
+                            listen: false,
+                          ).add(item);
+                        }
+                        Navigator.pop(context);
+                      },
+                      child: isEdit ? const Text("Edit") : const Text("Add"),
+                    ),
+
+                    isEdit
+                        ? ElevatedButton(
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text("Delete ingredient"),
+                                  content: Text(
+                                    "Are you sure you want to delete this ingredient?",
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: Text("Cancel"),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        final manager =
+                                            Provider.of<IngredientListManager>(
+                                              context,
+                                              listen: false,
+                                            );
+                                        manager.delete(widget.item!);
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                      },
+                                      style: TextButton.styleFrom(
+                                        foregroundColor: Colors.red,
+                                      ),
+                                      child: Text("Delete"),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.red,
+                            ),
+                            child: Text("DELETE"),
+                          )
+                        : Container(),
+                  ],
                 ),
               ),
             ],
