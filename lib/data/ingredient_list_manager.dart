@@ -84,6 +84,11 @@ class IngredientListManager extends ChangeNotifier {
     notifyListeners();
   }
 
+  void removeFromShoppinglist(IngredientItem item) async {
+    item.inShoppinglist = false;
+    notifyListeners();
+  }
+
   void update(IngredientItem item) async {
     IngredientItem? oldItem;
 

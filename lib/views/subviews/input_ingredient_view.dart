@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_recipebuddy/views/components/singleComponents/custom_dropdownunit.dart';
+import '../components/singleComponents/custom_dropdownunit.dart';
 import 'package:provider/provider.dart';
 import '../../data/ingredient_item.dart';
 import '../../data/ingredient_list_manager.dart';

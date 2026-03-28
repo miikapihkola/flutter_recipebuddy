@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_recipebuddy/views/subviews/input_ingredient_toshoppinglist_view.dart';
 import 'package:intl/intl.dart';
 import '../../../data/ingredient_item.dart';
 import '../../../data/ingredient_list_manager.dart';
@@ -20,7 +21,19 @@ Center ingredientCard(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        if (item.inShoppinglist) {
+                          manager.removeFromShoppinglist(item);
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  InputIngredientToshoppinglistView(item: item),
+                            ),
+                          );
+                        }
+                      },
                       icon: Icon(
                         Icons.shopping_cart,
                         color: item.inShoppinglist
