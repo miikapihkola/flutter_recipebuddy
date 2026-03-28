@@ -220,7 +220,7 @@ class _InputFormState extends State<InputForm> {
                             ),
                           ],
                           decoration: InputDecoration(
-                            labelText: "Enter current amount",
+                            labelText: "Current amount",
                           ),
                           onChanged: (value) => setState(() {
                             currentAmount = double.parse(value);
@@ -238,7 +238,7 @@ class _InputFormState extends State<InputForm> {
                                   ),
                                 ],
                                 decoration: InputDecoration(
-                                  labelText: "Enter buy amount",
+                                  labelText: "Amount to buy",
                                 ),
                                 onChanged: (value) => setState(() {
                                   amountToBuy = double.parse(value);
@@ -248,6 +248,7 @@ class _InputFormState extends State<InputForm> {
                       ],
                     ),
                   ),
+                  SizedBox(width: 10),
                   Column(
                     children: [
                       SizedBox(height: 10),
