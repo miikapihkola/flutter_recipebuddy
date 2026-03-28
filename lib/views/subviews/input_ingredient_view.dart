@@ -248,7 +248,7 @@ class _InputFormState extends State<InputForm> {
                                   if (value.isNotEmpty) {
                                     amountToBuy = double.parse(value);
                                   } else {
-                                    currentAmount = 0.0;
+                                    amountToBuy = 0.0;
                                   }
                                 }),
                               )

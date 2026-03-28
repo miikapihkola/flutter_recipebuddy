@@ -1,75 +1,41 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'ingredient_db_helper.dart';
 import 'ingredient_item.dart';
 
 class IngredientListManager extends ChangeNotifier {
   final List<IngredientItem> _items = [];
+  final _db = IngredientDbHelper();
 
   IngredientListManager() {
-    _items.add(
-      IngredientItem(
-        id: 0,
-        name: "Vodka",
-        mainCategory: "Fluids",
-        subCategory: "Alcohol",
-      ),
-    );
-    _items.add(
-      IngredientItem(
-        id: 1,
-        name: "Milk",
-        mainCategory: "Fluids",
-        subCategory: "Dairy",
-        description: "lactose free",
-        expire: DateTime.parse("2026-04-08"),
-        status: 2,
-        inShoppinglist: true,
-        isStarred: true,
-        amountToBuy: 10,
-        buyUnit: "dl",
-        currentAmount: 150,
-        unit: "ml",
-      ),
-    );
+    _loadFromDb();
+  }
+
+  Future<void> _loadFromDb() async {
+    final items = await _db.readAll();
+    _items.addAll(items);
+    notifyListeners();
   }
 
   UnmodifiableListView<IngredientItem> get items =>
       UnmodifiableListView(_items);
 
   void add(IngredientItem item) async {
-    if (_items.isEmpty) {
-      item.id = 0;
-    } else {
-      item.id = _items.last.id + 1;
-    }
+    await _db.create(item);
     _items.add(item);
     notifyListeners();
   }
 
   void delete(IngredientItem item) async {
+    await _db.delete(item.id);
     _items.remove(item);
     notifyListeners();
   }
 
-  void toggleStarred(IngredientItem item) {
+  void toggleStarred(IngredientItem item) async {
     item.isStarred = !item.isStarred;
-    notifyListeners();
-  }
-
-  // pitäsköhän olla erilliset add ja remove?
-  void toggleShoppinglist(
-    IngredientItem item,
-    double? amountToBuy,
-    String? buyUnit,
-  ) {
-    item.inShoppinglist = !item.inShoppinglist;
-    if (amountToBuy != null) {
-      item.amountToBuy = amountToBuy;
-      if (buyUnit != null) {
-        item.buyUnit = buyUnit;
-      }
-    }
+    await _db.update(item);
     notifyListeners();
   }
 
@@ -81,11 +47,13 @@ class IngredientListManager extends ChangeNotifier {
     } else {
       item.status = 0;
     }
+    await _db.update(item);
     notifyListeners();
   }
 
   void removeFromShoppinglist(IngredientItem item) async {
     item.inShoppinglist = false;
+    await _db.update(item);
     notifyListeners();
   }
 
@@ -113,6 +81,7 @@ class IngredientListManager extends ChangeNotifier {
       oldItem.amountToBuy = item.amountToBuy;
       oldItem.buyUnit = item.buyUnit;
 
+      await _db.update(oldItem);
       notifyListeners();
     }
   }
