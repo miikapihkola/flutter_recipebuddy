@@ -63,12 +63,12 @@ class _SettingsViewState extends State<SettingsView> {
               title: Text("Enable expiry notifications"),
               value: notificationsEnabled,
               onChanged: (value) async {
-                setState(() => notificationsEnabled = value!);
-                await SettingsHelper.instance.setNotificationsEnabled(value!);
                 final manager = Provider.of<IngredientListManager>(
                   context,
                   listen: false,
                 );
+                setState(() => notificationsEnabled = value!);
+                await SettingsHelper.instance.setNotificationsEnabled(value!);
                 await NotificationHelper.instance.rescheduleAllNotifications(
                   manager.items.toList(),
                 );
@@ -90,13 +90,13 @@ class _SettingsViewState extends State<SettingsView> {
                           )
                           .toList(),
                       onChanged: (value) async {
-                        setState(() => notificationHour = value!);
-                        await SettingsHelper.instance.setNotificationHour(
-                          value!,
-                        );
                         final manager = Provider.of<IngredientListManager>(
                           context,
                           listen: false,
+                        );
+                        setState(() => notificationHour = value!);
+                        await SettingsHelper.instance.setNotificationHour(
+                          value!,
                         );
                         await NotificationHelper.instance
                             .rescheduleAllNotifications(manager.items.toList());
@@ -116,13 +116,13 @@ class _SettingsViewState extends State<SettingsView> {
                           )
                           .toList(),
                       onChanged: (value) async {
-                        setState(() => notificationDaysBefore = value!);
-                        await SettingsHelper.instance.setNotificationDaysBefore(
-                          value!,
-                        );
                         final manager = Provider.of<IngredientListManager>(
                           context,
                           listen: false,
+                        );
+                        setState(() => notificationDaysBefore = value!);
+                        await SettingsHelper.instance.setNotificationDaysBefore(
+                          value!,
                         );
                         await NotificationHelper.instance
                             .rescheduleAllNotifications(manager.items.toList());

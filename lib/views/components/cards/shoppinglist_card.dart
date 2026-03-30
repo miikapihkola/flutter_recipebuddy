@@ -129,18 +129,3 @@ Center shoppinglistCard(
     ),
   );
 }
-
-Color _getColor(int state) {
-  switch (state) {
-    case 0:
-      return Colors.red;
-    case 1:
-      return Colors.amber;
-    case 2:
-      return Colors.green;
-    case 3:
-      return Colors.blueGrey;
-    default:
-      return Colors.black;
-  }
-}

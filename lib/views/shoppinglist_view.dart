@@ -71,14 +71,15 @@ class _ShoppinglistViewState extends State<ShoppinglistView> {
           compare = a.name.compareTo(b.name);
           break;
         case "Expire":
-          if (a.expire == null && b.expire == null)
+          if (a.expire == null && b.expire == null) {
             compare = 0;
-          else if (a.expire == null)
+          } else if (a.expire == null) {
             compare = 1;
-          else if (b.expire == null)
+          } else if (b.expire == null) {
             compare = -1;
-          else
+          } else {
             compare = a.expire!.compareTo(b.expire!);
+          }
           break;
         case "Recent":
           compare = a.id.compareTo(b.id);
