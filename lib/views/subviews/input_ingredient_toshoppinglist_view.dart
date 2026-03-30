@@ -56,7 +56,7 @@ class _InputFormState extends State<InputForm> {
           key: _formKey,
           child: Column(
             children: [
-              Text(name),
+              Text(name, textScaler: TextScaler.linear(1.7)),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
