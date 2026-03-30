@@ -5,15 +5,18 @@ import 'data/ingredient_list_manager.dart';
 import 'views/main_view.dart';
 import 'package:provider/provider.dart';
 
-void main() => runApp(
-  MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (context) => IngredientListManager()),
-      ChangeNotifierProvider(create: (context) => RecipeListManager()),
-    ],
-    child: const MyApp(),
-  ),
-);
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => IngredientListManager()),
+        ChangeNotifierProvider(create: (context) => RecipeListManager()),
+      ],
+      child: const MyApp(),
+    ),
+  );
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

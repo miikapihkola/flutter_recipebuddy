@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../data/settings_helper.dart';
 import '../../data/ingredient_item.dart';
 import '../components/singleComponents/custom_datepicker.dart';
 import '../../data/ingredient_list_manager.dart';
@@ -68,6 +69,8 @@ class _InputFormState extends State<InputForm> {
   double amountToHandle = 0;
   String amountToHandleUnit = "";
 
+  bool preferOriginalUnit = false;
+
   @override
   void initState() {
     super.initState();
@@ -89,12 +92,20 @@ class _InputFormState extends State<InputForm> {
         : widget.usageUnit != null
         ? widget.usageUnit!
         : "";
+
+    _loadSettings();
+  }
+
+  Future<void> _loadSettings() async {
+    final preferOriginalUnitValue = await SettingsHelper.instance
+        .getPreferOriginalUnit();
+    setState(() {
+      preferOriginalUnit = preferOriginalUnitValue;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    const preferOriginalUnit = false;
-
     List<String> suggestedValue = _getSuggestedValue(
       isAddition,
       currentAmount,
