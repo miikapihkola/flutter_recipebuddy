@@ -39,8 +39,6 @@ class _InputFormState extends State<InputForm> {
   void initState() {
     super.initState();
 
-    final manager = Provider.of<IngredientListManager>(context, listen: false);
-
     id = widget.item.id;
     name = widget.item.name;
     amountToBuy = widget.item.amountToBuy;

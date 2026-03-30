@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_recipebuddy/data/ingredient_item.dart';
+import '../data/ingredient_item.dart';
 import 'components/filter/filter_ingredients.dart';
 import '../data/ingredient_list_manager.dart';
 import 'package:provider/provider.dart';
@@ -218,18 +218,20 @@ class _IngredientsViewState extends State<IngredientsView> {
                             ],
                           )
                         : CustomDivider(tb: [2, 0]),
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: displayList.length,
-                        itemBuilder: (context, index) {
-                          return ingredientCard(
-                            displayList[index],
-                            context,
-                            listManager,
-                          );
-                        },
-                      ),
-                    ),
+                    displayList.isEmpty
+                        ? Text("No items corresponding current filters")
+                        : Expanded(
+                            child: ListView.builder(
+                              itemCount: displayList.length,
+                              itemBuilder: (context, index) {
+                                return ingredientCard(
+                                  displayList[index],
+                                  context,
+                                  listManager,
+                                );
+                              },
+                            ),
+                          ),
                   ],
                 );
               }

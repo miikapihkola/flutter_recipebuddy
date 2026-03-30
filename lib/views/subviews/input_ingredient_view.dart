@@ -11,7 +11,8 @@ import '../../data/category_list_builder.dart';
 
 class InputIngredientView extends StatelessWidget {
   final IngredientItem? item;
-  const InputIngredientView({super.key, this.item});
+  final bool? fromShoppinglist;
+  const InputIngredientView({super.key, this.item, this.fromShoppinglist});
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +22,15 @@ class InputIngredientView extends StatelessWidget {
           item == null ? "Add new ingredient" : "Edit existing ingredient",
         ),
       ),
-      body: InputForm(item: item),
+      body: InputForm(item: item, fromShoppinglist: fromShoppinglist),
     );
   }
 }
 
 class InputForm extends StatefulWidget {
   final IngredientItem? item;
-  const InputForm({super.key, this.item});
+  final bool? fromShoppinglist;
+  const InputForm({super.key, this.item, this.fromShoppinglist});
 
   @override
   State<StatefulWidget> createState() => _InputFormState();
@@ -78,6 +80,9 @@ class _InputFormState extends State<InputForm> {
     } else {
       mainCategory = categoryList.first;
       subCategory = subcategoryList.first;
+      if (widget.fromShoppinglist == true) {
+        inShoppinglist = true;
+      }
     }
 
     categoryList = CategoryListBuilder.buildInputCategoryList(manager);

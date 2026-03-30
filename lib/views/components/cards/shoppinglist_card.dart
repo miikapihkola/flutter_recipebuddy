@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../subviews/input_ingredient_toshoppinglist_view.dart';
+import '../../subviews/input_ingredient_update_amounts.dart';
 import 'package:intl/intl.dart';
 import '../../../data/ingredient_item.dart';
 import '../../../data/ingredient_list_manager.dart';
 import '../../subviews/input_ingredient_view.dart';
 
-Center ingredientCard(
+Center shoppinglistCard(
   IngredientItem item,
   BuildContext context,
   IngredientListManager manager,
@@ -22,42 +22,26 @@ Center ingredientCard(
                   children: [
                     IconButton(
                       onPressed: () {
-                        if (item.inShoppinglist) {
-                          manager.removeFromShoppinglist(item);
-                        } else {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  InputIngredientToshoppinglistView(item: item),
+                        manager.removeFromShoppinglist(item);
+                      },
+                      icon: Icon(
+                        Icons.remove_shopping_cart,
+                        color: const Color.fromARGB(255, 160, 0, 0),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => InputIngredientView(
+                              item: item,
+                              fromShoppinglist: true,
                             ),
-                          );
-                        }
+                          ),
+                        );
                       },
-                      icon: Icon(
-                        Icons.shopping_cart,
-                        color: item.inShoppinglist
-                            ? Colors.deepOrange
-                            : Colors.blueGrey,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        manager.toggleStarred(item);
-                      },
-                      icon: Icon(
-                        Icons.star,
-                        color: item.isStarred
-                            ? Colors.deepOrange
-                            : Colors.blueGrey,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        manager.bumpStatus(item);
-                      },
-                      icon: Icon(Icons.shelves),
-                      color: _getColor(item.status),
+                      icon: Icon(Icons.edit),
                     ),
                     IconButton(
                       onPressed: () {
@@ -65,11 +49,14 @@ Center ingredientCard(
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                InputIngredientView(item: item),
+                                InputIngredientUpdateAmountsView(
+                                  item: item,
+                                  isAddition: true,
+                                ),
                           ),
                         );
                       },
-                      icon: Icon(Icons.edit),
+                      icon: Icon(Icons.shopping_cart_checkout),
                     ),
                   ],
                 ),
@@ -108,15 +95,30 @@ Center ingredientCard(
                             ),
                           )
                         : Container(),
-                    item.currentAmount != 0
-                        ? Row(
-                            children: [
-                              Text(item.currentAmount.toString()),
-                              SizedBox(width: 4),
-                              Text(item.unit.toString()),
-                            ],
-                          )
-                        : Container(),
+                    Row(
+                      children: [
+                        item.currentAmount != 0
+                            ? Row(
+                                children: [
+                                  Text(item.currentAmount.toString()),
+                                  SizedBox(width: 4),
+                                  Text(item.unit.toString()),
+                                  SizedBox(width: 4),
+                                ],
+                              )
+                            : Container(),
+                        item.amountToBuy != 0
+                            ? Row(
+                                children: [
+                                  Text(" + "),
+                                  Text(item.amountToBuy.toString()),
+                                  SizedBox(width: 4),
+                                  Text(item.buyUnit.toString()),
+                                ],
+                              )
+                            : Container(),
+                      ],
+                    ),
                   ],
                 ),
               ),
