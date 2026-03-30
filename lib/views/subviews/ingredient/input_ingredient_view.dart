@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../components/singleComponents/custom_dropdownunit.dart';
+import '../../components/singleComponents/custom_dropdownunit.dart';
 import 'package:provider/provider.dart';
-import '../../data/ingredient_item.dart';
-import '../../data/ingredient_list_manager.dart';
-import '../../data/constants.dart';
-import '../components/singleComponents/custom_dropdownother.dart';
-import '../components/singleComponents/custom_datepicker.dart';
-import '../../data/category_list_builder.dart';
+import '../../../data/ingredient/ingredient_item.dart';
+import '../../../data/ingredient/ingredient_list_manager.dart';
+import '../../../data/constants.dart';
+import '../../components/singleComponents/custom_dropdownother.dart';
+import '../../components/singleComponents/custom_datepicker.dart';
+import '../../../data/category_list_builder.dart';
 
 class InputIngredientView extends StatelessWidget {
   final IngredientItem? item;

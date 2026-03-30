@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../data/ingredient_item.dart';
-import '../data/ingredient_list_manager.dart';
+import '../data/ingredient/ingredient_item.dart';
+import '../data/ingredient/ingredient_list_manager.dart';
 import 'package:provider/provider.dart';
 import 'components/filter/filter_bar.dart';
 import 'components/cards/shoppinglist_card.dart';
 import 'components/singleComponents/custom_divider.dart';
-import 'subviews/input_ingredient_view.dart';
+import 'subviews/ingredient/input_ingredient_view.dart';
 import '../data/category_list_builder.dart';
 import '../data/constants.dart';
 

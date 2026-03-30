@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'data/notification_helper.dart';
-import 'data/recipe_list_manager.dart';
-import 'data/ingredient_list_manager.dart';
+import 'data/recipe/recipe_list_manager.dart';
+import 'data/ingredient/ingredient_list_manager.dart';
 import 'views/main_view.dart';
 import 'package:provider/provider.dart';
 

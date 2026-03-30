@@ -3,7 +3,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'ingredient_db_helper.dart';
 import 'ingredient_item.dart';
-import 'notification_helper.dart';
+import '../notification_helper.dart';
 
 class IngredientListManager extends ChangeNotifier {
   final List<IngredientItem> _items = [];

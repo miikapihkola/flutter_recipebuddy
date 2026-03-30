@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../data/settings_helper.dart';
-import '../../data/ingredient_item.dart';
-import '../components/singleComponents/custom_datepicker.dart';
-import '../../data/ingredient_list_manager.dart';
-import '../../data/valueconverter.dart';
-import '../components/singleComponents/custom_dropdownunit.dart';
+import '../../../data/settings_helper.dart';
+import '../../../data/ingredient/ingredient_item.dart';
+import '../../components/singleComponents/custom_datepicker.dart';
+import '../../../data/ingredient/ingredient_list_manager.dart';
+import '../../../data/valueconverter.dart';
+import '../../components/singleComponents/custom_dropdownunit.dart';
 import 'package:provider/provider.dart';
 
 class InputIngredientUpdateAmountsView extends StatelessWidget {
@@ -315,6 +315,9 @@ List<String> _getSuggestedValue(
     suggestedValue = firstValue + convertedValue;
   }
 
+  if (suggestedValue < 0) {
+    suggestedValue = 0;
+  }
   return [suggestedValue.toString(), suggestedUnit];
 }
 

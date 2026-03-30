@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../data/ingredient_item.dart';
-import '../../data/ingredient_list_manager.dart';
-import '../components/singleComponents/custom_dropdownunit.dart';
+import '../../../data/ingredient/ingredient_item.dart';
+import '../../../data/ingredient/ingredient_list_manager.dart';
+import '../../components/singleComponents/custom_dropdownunit.dart';
 import 'package:provider/provider.dart';
 
 class InputIngredientToshoppinglistView extends StatelessWidget {

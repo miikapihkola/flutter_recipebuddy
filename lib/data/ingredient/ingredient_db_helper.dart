@@ -1,5 +1,5 @@
 import 'package:sqflite/sqflite.dart';
-import 'database_provider.dart';
+import '../database_provider.dart';
 import 'ingredient_item.dart';
 
 class IngredientDbHelper {

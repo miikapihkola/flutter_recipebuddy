@@ -1,4 +1,4 @@
-import 'package:flutter_recipebuddy/data/ingredient_db_helper.dart';
+import 'package:flutter_recipebuddy/data/ingredient/ingredient_db_helper.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 

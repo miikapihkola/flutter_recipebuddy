@@ -1,4 +1,4 @@
-import 'constants.dart';
+import '../constants.dart';
 
 class IngredientItem {
   int id = 0;

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../../subviews/input_ingredient_update_amounts.dart';
+import '../../subviews/ingredient/input_ingredient_update_amounts.dart';
 import 'package:intl/intl.dart';
-import '../../../data/ingredient_item.dart';
-import '../../../data/ingredient_list_manager.dart';
-import '../../subviews/input_ingredient_view.dart';
+import '../../../data/ingredient/ingredient_item.dart';
+import '../../../data/ingredient/ingredient_list_manager.dart';
+import '../../subviews/ingredient/input_ingredient_view.dart';
 
 Center shoppinglistCard(
   IngredientItem item,

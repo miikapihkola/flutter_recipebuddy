@@ -1,4 +1,4 @@
-import 'ingredient_list_manager.dart';
+import 'ingredient/ingredient_list_manager.dart';
 import 'constants.dart';
 
 class CategoryListBuilder {

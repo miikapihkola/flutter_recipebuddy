@@ -4,7 +4,7 @@ import '../data/database_provider.dart';
 import '../data/settings_helper.dart';
 import 'package:flutter/foundation.dart';
 import '../data/notification_helper.dart';
-import '../data/ingredient_list_manager.dart';
+import '../data/ingredient/ingredient_list_manager.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
