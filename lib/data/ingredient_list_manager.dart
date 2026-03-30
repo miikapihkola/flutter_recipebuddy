@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'ingredient_db_helper.dart';
 import 'ingredient_item.dart';
+import 'notification_helper.dart';
 
 class IngredientListManager extends ChangeNotifier {
   final List<IngredientItem> _items = [];
@@ -15,7 +16,12 @@ class IngredientListManager extends ChangeNotifier {
   Future<void> _loadFromDb() async {
     final items = await _db.readAll();
     _items.addAll(items);
+    await _rescheduleNotifications();
     notifyListeners();
+  }
+
+  Future<void> _rescheduleNotifications() async {
+    await NotificationHelper.instance.rescheduleAllNotifications(_items);
   }
 
   UnmodifiableListView<IngredientItem> get items =>
@@ -24,12 +30,14 @@ class IngredientListManager extends ChangeNotifier {
   void add(IngredientItem item) async {
     await _db.create(item);
     _items.add(item);
+    await _rescheduleNotifications();
     notifyListeners();
   }
 
   void delete(IngredientItem item) async {
     await _db.delete(item.id);
     _items.remove(item);
+    await _rescheduleNotifications();
     notifyListeners();
   }
 
@@ -82,6 +90,7 @@ class IngredientListManager extends ChangeNotifier {
       oldItem.buyUnit = item.buyUnit;
 
       await _db.update(oldItem);
+      await _rescheduleNotifications();
       notifyListeners();
     }
   }

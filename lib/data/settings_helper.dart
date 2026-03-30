@@ -22,4 +22,28 @@ class SettingsHelper {
   Future<bool> getPreferOriginalUnit() async {
     return (await _prefs).getBool("preferOriginalUnit") ?? false;
   }
+
+  Future<void> setNotificationsEnabled(bool value) async {
+    await (await _prefs).setBool('notificationsEnabled', value);
+  }
+
+  Future<bool> getNotificationsEnabled() async {
+    return (await _prefs).getBool('notificationsEnabled') ?? true;
+  }
+
+  Future<void> setNotificationHour(int value) async {
+    await (await _prefs).setInt('notificationHour', value);
+  }
+
+  Future<int> getNotificationHour() async {
+    return (await _prefs).getInt('notificationHour') ?? 12;
+  }
+
+  Future<void> setNotificationDaysBefore(int value) async {
+    await (await _prefs).setInt('notificationDaysBefore', value);
+  }
+
+  Future<int> getNotificationDaysBefore() async {
+    return (await _prefs).getInt('notificationDaysBefore') ?? 3;
+  }
 }
