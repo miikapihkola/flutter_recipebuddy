@@ -70,6 +70,10 @@ class _InputFormState extends State<InputForm> {
   String amountToHandleUnit = "";
 
   bool preferOriginalUnit = false;
+  double updatedAmount = 0;
+  String updatedUnit = "";
+
+  late TextEditingController _amountController;
 
   @override
   void initState() {
@@ -93,7 +97,14 @@ class _InputFormState extends State<InputForm> {
         ? widget.usageUnit!
         : "";
 
+    _amountController = TextEditingController(text: "0");
     _loadSettings();
+  }
+
+  @override
+  void dispose() {
+    _amountController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadSettings() async {
@@ -101,22 +112,23 @@ class _InputFormState extends State<InputForm> {
         .getPreferOriginalUnit();
     setState(() {
       preferOriginalUnit = preferOriginalUnitValue;
+
+      List<String> suggestedValue = _getSuggestedValue(
+        isAddition,
+        currentAmount,
+        unit,
+        amountToHandle,
+        amountToHandleUnit,
+        preferOriginalUnit,
+      );
+      _amountController.text = suggestedValue[0];
+      updatedAmount = double.parse(suggestedValue[0]);
+      updatedUnit = suggestedValue[1];
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    List<String> suggestedValue = _getSuggestedValue(
-      isAddition,
-      currentAmount,
-      unit,
-      amountToHandle,
-      amountToHandleUnit,
-      preferOriginalUnit,
-    );
-    double updatedAmount = double.parse(suggestedValue[0]);
-    String updatedUnit = suggestedValue[1];
-
     return Padding(
       padding: const EdgeInsetsGeometry.symmetric(horizontal: 20),
       child: Center(
@@ -196,7 +208,7 @@ class _InputFormState extends State<InputForm> {
                 children: [
                   Expanded(
                     child: TextFormField(
-                      initialValue: suggestedValue[0],
+                      controller: _amountController,
                       keyboardType: TextInputType.numberWithOptions(
                         decimal: true,
                       ),
@@ -218,7 +230,7 @@ class _InputFormState extends State<InputForm> {
                     children: [
                       SizedBox(height: 10),
                       CustomDropdownUnit(
-                        value: suggestedValue[1],
+                        value: updatedUnit,
                         onChanged: (value) {
                           setState(() {
                             updatedUnit = value;
