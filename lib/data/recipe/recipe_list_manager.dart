@@ -1,41 +1,61 @@
 import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'recipe_item.dart';
+import 'recipe_db_helper.dart';
 
 class RecipeListManager extends ChangeNotifier {
   final List<RecipeItem> _items = [];
+  final _db = RecipeTableHelper();
 
   RecipeListManager() {
-    _items.add(
-      RecipeItem(
-        id: 0,
-        name: "title",
-        description: "description",
-        mainCategory: "cat1",
-        subCategory: "scat1",
-      ),
-    );
-    _items.add(
-      RecipeItem(
-        id: 1,
-        name: "title2",
-        description: "description2",
-        mainCategory: "cat1",
-        subCategory: "scat2",
-      ),
-    );
+    _loadFromDb();
   }
 
   UnmodifiableListView<RecipeItem> get items => UnmodifiableListView(_items);
 
-  void add(RecipeItem item) async {
-    if (_items.isEmpty) {
-      item.id = 0;
-    } else {
-      item.id = _items.last.id + 1;
-    }
+  Future<void> _loadFromDb() async {
+    final items = await _db.readAll();
+    _items.addAll(items);
+    notifyListeners();
+  }
+
+  // Main features
+
+  Future<void> add(RecipeItem item) async {
+    await _db.create(item);
     _items.add(item);
     notifyListeners();
   }
+
+  Future<void> delete(RecipeItem item) async {
+    await _db.delete(item.id);
+    _items.remove(item);
+    notifyListeners();
+  }
+
+  Future<void> update(RecipeItem item) async {
+    final index = _items.indexWhere((i) => i.id == item.id);
+    if (index == -1) return;
+
+    await _db.update(item);
+    _items[index] = item;
+    notifyListeners();
+  }
+
+  // Shorthand features
+
+  Future<void> toggleStarred(RecipeItem item) async {
+    item.isStarred = !item.isStarred;
+    await _db.update(item);
+    notifyListeners();
+  }
+
+  /*
+  // example how to modify nested objects as shorthand
+  Future<void> clearCookStepDescriptionExample(RecipeItem recipe, CookStep step) async{
+    step.description = "";
+    await _db.update(recipe);
+    notifyListeners();
+  }
+  */
 }
