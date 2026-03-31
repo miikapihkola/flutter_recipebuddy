@@ -24,7 +24,7 @@ class CustomDropdownUnit extends StatelessWidget {
         )
         .toList();
     return SizedBox(
-      width: 80,
+      width: 100,
       child: DropdownButton(
         isExpanded: true,
         itemHeight: null,

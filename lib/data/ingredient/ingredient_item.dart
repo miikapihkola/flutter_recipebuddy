@@ -4,16 +4,16 @@ class IngredientItem {
   int id = 0;
   String name = "";
   String description = "";
-  String _mainCategory = "";
-  String _subCategory = "";
+  String _mainCategory = categoryUnspecified;
+  String _subCategory = categoryUnspecified;
   DateTime? expire;
   int _status = 3; // [0, 1, 2] = [R, Y, G] , 3 = unknown
   bool inShoppinglist = false;
   bool isStarred = false;
   double _amountToBuy = 0;
-  String buyUnit = "";
+  String _buyUnit = "";
   double _currentAmount = 0;
-  String unit = "";
+  String _unit = "";
 
   IngredientItem({
     required this.id,
@@ -26,15 +26,35 @@ class IngredientItem {
     this.inShoppinglist = false,
     this.isStarred = false,
     double amountToBuy = 0,
-    this.buyUnit = "",
+    String buyUnit = "",
     double currentAmount = 0,
-    this.unit = "",
+    String unit = "",
   }) {
     this.status = status;
     this.amountToBuy = amountToBuy;
     this.currentAmount = currentAmount;
     this.mainCategory = mainCategory;
     this.subCategory = subCategory;
+    this.buyUnit = buyUnit;
+    this.unit = unit;
+  }
+
+  String get unit => _unit;
+  set unit(String value) {
+    if (unitsList.contains(value)) {
+      _unit = value;
+    } else {
+      _unit = unitsList[0];
+    }
+  }
+
+  String get buyUnit => _buyUnit;
+  set buyUnit(String value) {
+    if (unitsList.contains(value)) {
+      _buyUnit = value;
+    } else {
+      _buyUnit = unitsList[0];
+    }
   }
 
   int get status => _status;
@@ -67,7 +87,6 @@ class IngredientItem {
   String get mainCategory => _mainCategory;
   set mainCategory(String value) {
     if (value.isEmpty) {
-      // later add check if it is not existing category
       _mainCategory = categoryUnspecified;
     } else {
       _mainCategory = value;
@@ -77,7 +96,6 @@ class IngredientItem {
   String get subCategory => _subCategory;
   set subCategory(String value) {
     if (value.isEmpty) {
-      // later add check if it is not existing category
       _subCategory = categoryUnspecified;
     } else {
       _subCategory = value;

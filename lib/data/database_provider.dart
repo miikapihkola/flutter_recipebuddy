@@ -1,4 +1,9 @@
-import 'package:flutter_recipebuddy/data/ingredient/ingredient_db_helper.dart';
+import 'package:flutter/foundation.dart';
+import 'ingredient/ingredient_db_helper.dart';
+import 'recipe/tables/recipe_base_db_helper.dart';
+import 'recipe/tables/recipe_cookstep_db_helper.dart';
+import 'recipe/tables/recipe_ingredient_db_helper.dart';
+import 'recipe/tables/recipe_ingredientgroup_db_helper.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -30,7 +35,10 @@ class DatabaseProvider {
 
   Future _createDB(Database db, int version) async {
     await IngredientDbHelper.createTable(db);
-    // await RecipeDbHelper.createTable(db); // add future tables
+    await RecipeBaseTableHelper.createTable(db);
+    await RecipeIngredientGroupTableHelper.createTable(db);
+    await RecipeIngredientTableHelper.createTable(db);
+    await RecipeCookStepTableHelper.createTable(db);
   }
 
   Future<void> close() async {
@@ -40,11 +48,18 @@ class DatabaseProvider {
 
   Future<void> clearAll() async {
     final db = await database;
-    await db.delete(IngredientDbHelper.tableName);
-    // await db.delete(RecipeDbHelper.tableName); // add future tables
+    // Order matters due to foreign keys — delete children first
+    await db.delete(RecipeCookStepTableHelper.cookStepTable);
+    await db.delete(RecipeIngredientTableHelper.recipeIngredientTable);
+    await db.delete(RecipeIngredientGroupTableHelper.ingredientGroupTable);
+    await db.delete(RecipeBaseTableHelper.recipeTable);
+    await db.delete(IngredientDbHelper.ingredientsTable);
   }
 
+  /// DEBUG ONLY — deletes entire database file, forces fresh onCreate on next launch
   Future<void> debugDeleteDatabase() async {
+    if (!kDebugMode) return;
+
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, _dbname);
     _database = null;
