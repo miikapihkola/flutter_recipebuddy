@@ -135,26 +135,38 @@ class _SettingsViewState extends State<SettingsView> {
             if (kDebugMode)
               Padding(
                 padding: const EdgeInsets.only(top: 40),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                child: Column(
                   children: [
-                    ElevatedButton(
-                      onPressed: () async {
-                        await DatabaseProvider.instance.clearAll();
-                      },
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.red,
-                      ),
-                      child: Text("DEBUG: Clear DB"),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () async {
+                            await DatabaseProvider.instance.clearAll();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.red,
+                          ),
+                          child: Text("DEBUG: Clear DB"),
+                        ),
+                        ElevatedButton(
+                          onPressed: () async {
+                            await DatabaseProvider.instance
+                                .debugDeleteDatabase();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.red,
+                          ),
+                          child: Text("DEBUG: Delete DB"),
+                        ),
+                      ],
                     ),
                     ElevatedButton(
                       onPressed: () async {
-                        await DatabaseProvider.instance.debugDeleteDatabase();
+                        await NotificationHelper.instance
+                            .debugTestNotification();
                       },
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.red,
-                      ),
-                      child: Text("DEBUG: Delete DB"),
+                      child: Text("Test notification, now & 10 sec. delay"),
                     ),
                   ],
                 ),

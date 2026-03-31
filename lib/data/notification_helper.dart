@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'settings_helper.dart';
 import 'ingredient/ingredient_item.dart';
@@ -17,6 +18,13 @@ class NotificationHelper {
     const settings = InitializationSettings(android: android);
 
     await _notifications.initialize(settings: settings);
+
+    // Request permissions
+    final androidPlugin = _notifications
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >();
+    await androidPlugin?.requestNotificationsPermission();
   }
 
   Future<void> rescheduleAllNotifications(List<IngredientItem> items) async {
@@ -93,7 +101,7 @@ class NotificationHelper {
             priority: Priority.high,
           ),
         ),
-        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        androidScheduleMode: AndroidScheduleMode.inexact,
         title: "Expiring ingredients",
         body: body,
       );
@@ -102,5 +110,56 @@ class NotificationHelper {
 
   Future<void> cancelAllNotifications() async {
     await _notifications.cancelAll();
+  }
+
+  // DEBUG code
+
+  Future<void> debugTestNotification() async {
+    if (!kDebugMode) return;
+
+    final now = tz.TZDateTime.now(tz.local);
+    final scheduleDate = now.add(Duration(seconds: 10));
+
+    print("DEBUG: Scheduling test notification for $scheduleDate");
+    print("DEBUG: Current time is $now");
+
+    await _notifications.zonedSchedule(
+      id: 999,
+      title: "Test notification",
+      scheduledDate: scheduleDate,
+      body: "This is a test",
+      notificationDetails: NotificationDetails(
+        android: AndroidNotificationDetails(
+          "expiracy_channel",
+          "Expiry Notifications",
+          channelDescription: "Notification for expiring ingredients",
+          importance: Importance.high,
+          priority: Priority.high,
+        ),
+      ),
+      androidScheduleMode: AndroidScheduleMode.inexact,
+    );
+
+    await _notifications.show(
+      id: 998,
+      title: "Immediate test",
+      body: "This should appear right now",
+      notificationDetails: NotificationDetails(
+        android: AndroidNotificationDetails(
+          "expiry_channel",
+          "Expiry Notifications",
+          importance: Importance.max,
+          priority: Priority.max,
+        ),
+      ),
+    );
+
+    print("DEBUG: Notification scheduled succesfully");
+
+    final pending = await _notifications.pendingNotificationRequests();
+    print("DEBUG: Pending notifications: ${pending.length}");
+    for (final n in pending) {
+      print("DEBUG: id=${n.id}, title${n.title}, body${n.body}");
+    }
   }
 }
