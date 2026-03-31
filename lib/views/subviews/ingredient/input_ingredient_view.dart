@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../../data/recipe/tables/recipe_ingredient_db_helper.dart';
+import '../../components/singleComponents/custom_deletebtn.dart';
 import '../../components/singleComponents/custom_dropdownunit.dart';
 import 'package:provider/provider.dart';
 import '../../../data/ingredient/ingredient_item.dart';
@@ -414,37 +416,25 @@ class _InputFormState extends State<InputForm> {
 
                     isEdit
                         ? ElevatedButton(
-                            onPressed: () {
-                              showDialog(
+                            onPressed: () async {
+                              final manager =
+                                  Provider.of<IngredientListManager>(
+                                    context,
+                                    listen: false,
+                                  );
+                              final inUse = await RecipeIngredientTableHelper()
+                                  .isIngredientInUse(widget.item!.id);
+
+                              if (!context.mounted) return;
+
+                              CustomDeleteBtn.show(
                                 context: context,
-                                builder: (context) => AlertDialog(
-                                  title: Text("Delete ingredient"),
-                                  content: Text(
-                                    "Are you sure you want to delete this ingredient?",
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(context),
-                                      child: Text("Cancel"),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        final manager =
-                                            Provider.of<IngredientListManager>(
-                                              context,
-                                              listen: false,
-                                            );
-                                        manager.delete(widget.item!);
-                                        Navigator.pop(context);
-                                        Navigator.pop(context);
-                                      },
-                                      style: TextButton.styleFrom(
-                                        foregroundColor: Colors.red,
-                                      ),
-                                      child: Text("Delete"),
-                                    ),
-                                  ],
-                                ),
+                                itemName: "ingredient",
+                                warningMessage: inUse
+                                    ? "This ingredient is used in one or more recipes. "
+                                          "Deleting it will remove it from those recipes."
+                                    : null,
+                                onDelete: () => manager.delete(widget.item!),
                               );
                             },
                             style: ElevatedButton.styleFrom(

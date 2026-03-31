@@ -72,6 +72,9 @@ class NotificationHelper {
         hour,
       );
 
+      // Skip if schedule time has already passed
+      if (scheduleDate.isBefore(tz.TZDateTime.now(tz.local))) continue;
+
       final itemNames = entry.value.map((i) => i.name).join(", ");
       final count = entry.value.length;
       final body = count == 1

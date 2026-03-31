@@ -1,3 +1,4 @@
+import '../../database_provider.dart';
 import 'package:sqflite/sqflite.dart';
 import '../recipe_item.dart';
 
@@ -54,5 +55,23 @@ class RecipeIngredientTableHelper {
           ),
         )
         .toList();
+  }
+
+  Future<bool> isIngredientInUse(int ingredientId) async {
+    final db = await DatabaseProvider.instance.database;
+    final result = await db.query(
+      recipeIngredientTable,
+      where: 'ingredientId = ?',
+      whereArgs: [ingredientId],
+    );
+    return result.isNotEmpty;
+  }
+
+  Future<void> deleteByIngredientId(Database db, int ingredientId) async {
+    await db.delete(
+      recipeIngredientTable,
+      where: 'ingredientId = ?',
+      whereArgs: [ingredientId],
+    );
   }
 }

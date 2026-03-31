@@ -1,9 +1,11 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_recipebuddy/data/recipe/tables/recipe_ingredient_db_helper.dart';
 import 'ingredient_db_helper.dart';
 import 'ingredient_item.dart';
 import '../notification_helper.dart';
+import '../database_provider.dart';
 
 class IngredientListManager extends ChangeNotifier {
   final List<IngredientItem> _items = [];
@@ -37,6 +39,11 @@ class IngredientListManager extends ChangeNotifier {
   }
 
   Future<void> delete(IngredientItem item) async {
+    //cascade
+    final db = await DatabaseProvider.instance.database;
+    await RecipeIngredientTableHelper().deleteByIngredientId(db, item.id);
+
+    //delete
     await _db.delete(item.id);
     _items.remove(item);
     await _rescheduleNotifications();
