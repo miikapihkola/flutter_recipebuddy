@@ -183,9 +183,9 @@ class _ShoppinglistViewState extends State<ShoppinglistView> {
                           )
                         : CustomDivider(tb: [2, 0]),
                     noShoppinglistItems
-                        ? Text("No items tagged to shoppinglist")
+                        ? Text("No ingredients tagged to shoppinglist")
                         : displayList.isEmpty
-                        ? Text("No items corresponding current filters")
+                        ? Text("No ingredients corresponding current filters")
                         : Expanded(
                             child: ListView.builder(
                               itemCount: displayList.length,

@@ -220,7 +220,7 @@ class _IngredientsViewState extends State<IngredientsView> {
                           )
                         : CustomDivider(tb: [2, 0]),
                     displayList.isEmpty
-                        ? Text("No items corresponding current filters")
+                        ? Text("No ingredients corresponding current filters")
                         : Expanded(
                             child: ListView.builder(
                               itemCount: displayList.length,
