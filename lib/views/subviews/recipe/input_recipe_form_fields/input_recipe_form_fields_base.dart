@@ -97,7 +97,7 @@ class InputRecipeFieldsBase extends StatelessWidget {
           ),
           onChanged: onDescriptionChanged,
           minLines: 1,
-          maxLines: 3,
+          maxLines: 30,
         ),
 
         SizedBox(height: 10),

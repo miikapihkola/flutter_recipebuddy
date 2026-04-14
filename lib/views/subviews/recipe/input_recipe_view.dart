@@ -385,6 +385,7 @@ class _InputFormState extends State<InputForm> {
                   ],
                 ),
               ),
+              SizedBox(height: 50),
             ],
           ),
         ),

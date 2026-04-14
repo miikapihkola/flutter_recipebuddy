@@ -24,7 +24,9 @@ class InputIngredientView extends StatelessWidget {
           item == null ? "Add new ingredient" : "Edit existing ingredient",
         ),
       ),
-      body: InputForm(item: item, fromShoppinglist: fromShoppinglist),
+      body: SingleChildScrollView(
+        child: InputForm(item: item, fromShoppinglist: fromShoppinglist),
+      ),
     );
   }
 }
@@ -448,6 +450,7 @@ class _InputFormState extends State<InputForm> {
                   ],
                 ),
               ),
+              SizedBox(height: 50),
             ],
           ),
         ),
