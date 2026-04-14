@@ -103,13 +103,13 @@ class _ShoppinglistViewState extends State<ShoppinglistView> {
     return Consumer<IngredientListManager>(
       builder: (context, listManager, child) {
         final displayList = _getSortedList(_getFilteredList(listManager.items));
-        final categoryList = CategoryListBuilder.buildFilterCategoryList(
-          listManager,
-        );
-        final subcategoryList = CategoryListBuilder.buildFilterSubcategoryList(
-          listManager,
-          selectedCategory,
-        );
+        final categoryList =
+            CategoryListBuilder.buildFilterCategoryListIngredient(listManager);
+        final subcategoryList =
+            CategoryListBuilder.buildFilterSubcategoryListIngredient(
+              listManager,
+              selectedCategory,
+            );
         if (!subcategoryList.contains(selectedSubcategory)) {
           selectedSubcategory = subcategoryList.first;
         }

@@ -87,8 +87,10 @@ class _InputFormState extends State<InputForm> {
       }
     }
 
-    categoryList = CategoryListBuilder.buildInputCategoryList(manager);
-    subcategoryList = CategoryListBuilder.buildInputSubcategoryList(
+    categoryList = CategoryListBuilder.buildInputCategoryListIngredient(
+      manager,
+    );
+    subcategoryList = CategoryListBuilder.buildInputSubcategoryListIngredient(
       manager,
       mainCategory,
     );
@@ -97,7 +99,7 @@ class _InputFormState extends State<InputForm> {
   void _updateSubcategoryList() {
     final manager = Provider.of<IngredientListManager>(context, listen: false);
     setState(() {
-      subcategoryList = CategoryListBuilder.buildInputSubcategoryList(
+      subcategoryList = CategoryListBuilder.buildInputSubcategoryListIngredient(
         manager,
         mainCategory,
       );

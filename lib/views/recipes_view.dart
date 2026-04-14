@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../data/recipe/recipe_list_manager.dart';
 import '../data/constants.dart';
 import '../data/recipe/recipe_item.dart';
+import 'subviews/recipe/input_recipe_view.dart';
 
 class RecipesView extends StatefulWidget {
   const RecipesView({super.key});
@@ -91,11 +92,17 @@ class _RecipesViewState extends State<RecipesView> {
     return Consumer<RecipeListManager>(
       builder: (context, listManager, child) {
         final displayList = _getSortedList(_getFilteredList(listManager.items));
-        /*final categoryList = CategoryListBuilder.buildFilterCategoryList(listManager)
-        final subcategoryList = CategoryListBuilder.buildFilterSubcategoryList(listManager, selectedCategory);
+        final categoryList = CategoryListBuilder.buildFilterCategoryListRecipe(
+          listManager,
+        );
+        final subcategoryList =
+            CategoryListBuilder.buildFilterSubcategoryListRecipe(
+              listManager,
+              selectedCategory,
+            );
         if (!subcategoryList.contains(selectedSubcategory)) {
           selectedSubcategory = subcategoryList.first;
-        }*/
+        }
         return Scaffold(
           appBar: AppBar(
             title: const Text("Recipes"),
@@ -103,14 +110,10 @@ class _RecipesViewState extends State<RecipesView> {
               IconButton(
                 iconSize: Theme.of(context).iconTheme.size,
                 onPressed: () {
-                  /*
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => InputRecipeView(),
-                    ),
+                    MaterialPageRoute(builder: (context) => InputRecipeView()),
                   );
-                  */
                 },
                 icon: Icon(Icons.add),
               ),
@@ -136,26 +139,33 @@ class _RecipesViewState extends State<RecipesView> {
                         ? Column(
                             children: [
                               /*FilterBar(
-                            viewType: RecipesView(), 
-                            categoryList: categoryList, 
-                            subcategoryList: subcategoryList, 
-                            initcategory: selectedCategory, 
-                            initsubcategory: selectedSubcategory, 
-                            initTextSearch: selectedTextSearch, 
-                            initSortBy: selectedSortBy,
-                            sortByList: sortByList, 
-                            initSortByAsc: selectedSortByAsc,
-                            onFilterChanged: (category, subcategory, textSearch, sortBy, sortByAsc,) {
-                              setState(() {
-                                selectedCategory = category;
-                                selectedSubcategory = subcategory;
-                                selectedTextSearch = textSearch;
-                                selectedSortBy = sortBy;
-                                selectedSortByAsc = sortByAsc;
-                              });
-                            },
-                            ),
-                            FilterRecipes(),*/
+                                viewType: RecipesView(),
+                                categoryList: categoryList,
+                                subcategoryList: subcategoryList,
+                                initcategory: selectedCategory,
+                                initsubcategory: selectedSubcategory,
+                                initTextSearch: selectedTextSearch,
+                                initSortBy: selectedSortBy,
+                                sortByList: sortByList,
+                                initSortByAsc: selectedSortByAsc,
+                                onFilterChanged:
+                                    (
+                                      category,
+                                      subcategory,
+                                      textSearch,
+                                      sortBy,
+                                      sortByAsc,
+                                    ) {
+                                      setState(() {
+                                        selectedCategory = category;
+                                        selectedSubcategory = subcategory;
+                                        selectedTextSearch = textSearch;
+                                        selectedSortBy = sortBy;
+                                        selectedSortByAsc = sortByAsc;
+                                      });
+                                    },
+                              ),
+                              FilterRecipes(),*/
                               Text("Placeholder searchbar"),
                             ],
                           )

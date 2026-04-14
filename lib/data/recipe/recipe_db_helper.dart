@@ -70,6 +70,7 @@ class RecipeTableHelper {
             description: map['description'] as String,
             mainCategory: map['mainCategory'] as String,
             subCategory: map['subCategory'] as String,
+            servings: map['servings'] as int? ?? 1,
             prepTimeMinutes: map['prepTimeMinutes'] as int? ?? 0,
             requiresDeepBowl: map['requiresDeepBowl'] == 1,
             cookSteps: steps,
@@ -89,6 +90,7 @@ class RecipeTableHelper {
             description: map['description'] as String,
             mainCategory: map['mainCategory'] as String,
             subCategory: map['subCategory'] as String,
+            servings: map['servings'] as int? ?? 1,
             isAlcoholic: map['isAlcoholic'] == 1,
             abv: (map['abv'] as num?)?.toDouble() ?? 0,
             glassType: map['glassType'] as String? ?? '',
@@ -109,6 +111,7 @@ class RecipeTableHelper {
             description: map['description'] as String,
             mainCategory: map['mainCategory'] as String,
             subCategory: map['subCategory'] as String,
+            servings: map['servings'] as int? ?? 1,
             fermentTimeDays: map['fermentTimeDays'] as int? ?? 0,
             fermentingStarted: map['fermentingStarted'] != null
                 ? DateTime.parse(map['fermentingStarted'] as String)
@@ -131,6 +134,7 @@ class RecipeTableHelper {
             description: map['description'] as String,
             mainCategory: map['mainCategory'] as String,
             subCategory: map['subCategory'] as String,
+            servings: map['servings'] as int? ?? 1,
           )
           ..ingredientGroups = groups
           ..isPinned = map['isPinned'] == 1
