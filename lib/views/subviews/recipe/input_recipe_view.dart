@@ -5,6 +5,7 @@ import '../../../data/recipe/recipe_list_manager.dart';
 import 'package:provider/provider.dart';
 import '../../../data/constants.dart';
 import '../../../data/recipe/recipe_item.dart';
+import 'input_recipe_form_fields/ingredient_groups/input_recipe_ingredient_groups.dart';
 import 'input_recipe_form_fields/input_recipe_form_fields_base.dart';
 
 class InputRecipeView extends StatelessWidget {
@@ -34,6 +35,7 @@ class _InputFormState extends State<InputForm> {
   final _formkey = GlobalKey<FormState>();
   List<String> categoryList = [categoryUnspecified];
   List<String> subcategoryList = [categoryUnspecified];
+  final _ingredientGroupsKey = GlobalKey<InputRecipeIngredientGroupsState>();
 
   // Base
   bool isEdit = false;
@@ -263,6 +265,12 @@ class _InputFormState extends State<InputForm> {
                   return null;
                 },
               ),
+              InputRecipeIngredientGroups(
+                key: _ingredientGroupsKey,
+                ingredientGroups: ingredientGroups,
+                onChanged: (groups) =>
+                    setState(() => ingredientGroups = groups),
+              ),
 
               /*
               if (recipeType == "Food")
@@ -312,7 +320,7 @@ class _InputFormState extends State<InputForm> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (!_formkey.currentState!.validate()) {
                           return;
                         }
@@ -345,6 +353,9 @@ class _InputFormState extends State<InputForm> {
                             ),
                           );
                         }
+                        await _ingredientGroupsKey.currentState!
+                            .flushPendingIngredients(context);
+
                         final item = _buildItem();
                         if (isEdit) {
                           Provider.of<RecipeListManager>(

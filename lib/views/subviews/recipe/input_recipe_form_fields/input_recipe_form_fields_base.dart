@@ -82,6 +82,7 @@ class InputRecipeFieldsBase extends StatelessWidget {
           maxLines: 3,
         ),
 
+        // Timestamp
         CustomDatePicker(
           label: "Timestamp",
           date: timeStamp,
@@ -129,10 +130,10 @@ class InputRecipeFieldsBase extends StatelessWidget {
 
         SizedBox(height: 10),
 
-        // Servings
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            // Servings
             Column(
               children: [
                 Row(
@@ -155,6 +156,8 @@ class InputRecipeFieldsBase extends StatelessWidget {
                 ),
               ],
             ),
+
+            // Rating
             Column(
               children: [
                 Row(
@@ -183,12 +186,11 @@ class InputRecipeFieldsBase extends StatelessWidget {
           ],
         ),
 
-        // Rating
         SizedBox(height: 10),
 
-        // Icons
         Row(
           children: [
+            // Recipe group
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 10, 5, 0),
               child: Text("Recipe type: "),
@@ -200,6 +202,8 @@ class InputRecipeFieldsBase extends StatelessWidget {
                 onChanged: onRecipeTypeChanged,
               ),
             ),
+
+            // Icons
             Padding(
               padding: const EdgeInsets.only(top: 10),
               child: IconButton(

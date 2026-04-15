@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_recipebuddy/views/components/cards/ingredient_card.dart';
-import 'package:flutter_recipebuddy/views/components/filter/filter_bar.dart';
+import 'components/cards/ingredient_card.dart';
+import 'components/filter/filter_bar.dart';
 import '../data/category_list_builder.dart';
 import 'components/cards/recipe_card.dart';
 import 'components/singleComponents/custom_divider.dart';

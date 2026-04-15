@@ -31,11 +31,12 @@ class IngredientListManager extends ChangeNotifier {
 
   // Main features
 
-  Future<void> add(IngredientItem item) async {
-    await _db.create(item);
+  Future<int> add(IngredientItem item) async {
+    final created = await _db.create(item);
     _items.add(item);
     await _rescheduleNotifications();
     notifyListeners();
+    return created.id;
   }
 
   Future<void> delete(IngredientItem item) async {
