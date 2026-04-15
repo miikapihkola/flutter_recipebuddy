@@ -50,6 +50,12 @@ class RecipeListManager extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> togglePinned(RecipeItem item) async {
+    item.isPinned = !item.isPinned;
+    await _db.update(item);
+    notifyListeners();
+  }
+
   /*
   // example how to modify nested objects as shorthand
   Future<void> clearCookStepDescriptionExample(RecipeItem recipe, CookStep step) async{

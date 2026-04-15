@@ -43,21 +43,23 @@ Center recipeCard(
                           icon: Icon(Icons.menu_book),
                         ),
                         IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.push_pin_rounded,
-                            color: item.isPinned
-                                ? Colors.deepOrange
-                                : Colors.blueGrey,
-                          ),
-                        ),
-                        IconButton(
                           onPressed: () {
                             manager.toggleStarred(item);
                           },
                           icon: Icon(
                             Icons.star,
                             color: item.isStarred
+                                ? Colors.deepOrange
+                                : Colors.blueGrey,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            manager.togglePinned(item);
+                          },
+                          icon: Icon(
+                            Icons.push_pin_rounded,
+                            color: item.isPinned
                                 ? Colors.deepOrange
                                 : Colors.blueGrey,
                           ),
