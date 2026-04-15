@@ -81,6 +81,7 @@ class _InputFormState extends State<InputForm> {
       isEdit = true;
       id = widget.item!.id;
       name = widget.item!.name;
+      description = widget.item!.description;
       mainCategory = widget.item!.mainCategory;
       subCategory = widget.item!.subCategory;
       recipeType = widget.item!.recipeType;
@@ -141,6 +142,7 @@ class _InputFormState extends State<InputForm> {
         return FoodRecipe(
             id: id,
             name: name,
+            description: description,
             mainCategory: mainCategory,
             subCategory: subCategory,
             servings: servings,
@@ -158,6 +160,7 @@ class _InputFormState extends State<InputForm> {
         return CocktailRecipe(
             id: id,
             name: name,
+            description: description,
             mainCategory: mainCategory,
             subCategory: subCategory,
             servings: servings,
@@ -176,6 +179,7 @@ class _InputFormState extends State<InputForm> {
         return FermentRecipe(
             id: id,
             name: name,
+            description: description,
             mainCategory: mainCategory,
             subCategory: subCategory,
             servings: servings,
@@ -194,6 +198,7 @@ class _InputFormState extends State<InputForm> {
         return RecipeItem(
             id: id,
             name: name,
+            description: description,
             mainCategory: mainCategory,
             subCategory: subCategory,
             servings: servings,

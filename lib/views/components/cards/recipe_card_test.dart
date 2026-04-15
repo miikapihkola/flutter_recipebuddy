@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_recipebuddy/views/subviews/recipe/input_recipe_view.dart';
 import 'package:intl/intl.dart';
 import '../../../data/recipe/recipe_list_manager.dart';
 import '../../../data/recipe/recipe_item.dart';
 
-Center recipeCard(
+Center recipeCardTest(
   RecipeItem item,
   BuildContext context,
   RecipeListManager manager,
@@ -15,6 +16,33 @@ Center recipeCard(
           Column(
             children: [
               ListTile(
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        manager.toggleStarred(item);
+                      },
+                      icon: Icon(
+                        Icons.star,
+                        color: item.isStarred
+                            ? Colors.deepOrange
+                            : Colors.blueGrey,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => InputRecipeView(item: item),
+                          ),
+                        );
+                      },
+                      icon: Icon(Icons.edit),
+                    ),
+                  ],
+                ),
                 title: Text(
                   item.name,
                   overflow: TextOverflow.ellipsis,

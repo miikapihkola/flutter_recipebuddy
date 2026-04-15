@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../../../../data/ingredient/ingredient_list_manager.dart';
 import '../../../../../data/recipe/recipe_item.dart';
 import '../../../../../data/ingredient/ingredient_item.dart';
 import 'input_recipe_ingredient_row.dart';
@@ -38,12 +40,24 @@ class _InputRecipeIngredientGroupTileState
   // Temp counter for RecipeIngredient ids (0 until saved)
   int _tempRiId = 0;
 
+  bool _namesInitialized = false;
+
   @override
   void initState() {
     super.initState();
     _groupName = widget.group.groupName;
     _optional = widget.group.optional;
     _ingredients = List.from(widget.group.recipeIngredients);
+
+    final manager = Provider.of<IngredientListManager>(context, listen: false);
+    for (final ri in _ingredients) {
+      final match = manager.items.where((i) => i.id == ri.ingredientId);
+      if (match.isNotEmpty) {
+        _ingredientNames[ri.ingredientId] = match.first.name;
+      } else {
+        _ingredientNames[ri.ingredientId] = "Unknown";
+      }
+    }
   }
 
   @override
@@ -117,6 +131,24 @@ class _InputRecipeIngredientGroupTileState
   void _updateIngredient(int index, RecipeIngredient updated) {
     setState(() => _ingredients[index] = updated);
     _notify();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_namesInitialized) {
+      final manager = Provider.of<IngredientListManager>(
+        context,
+        listen: false,
+      );
+      for (final ri in _ingredients) {
+        final match = manager.items.where((i) => i.id == ri.ingredientId);
+        _ingredientNames[ri.ingredientId] = match.isNotEmpty
+            ? match.first.name
+            : "Unknown";
+      }
+      _namesInitialized = true;
+    }
   }
 
   @override
