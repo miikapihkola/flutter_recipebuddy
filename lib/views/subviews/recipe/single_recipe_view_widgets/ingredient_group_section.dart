@@ -58,6 +58,21 @@ class IngredientGroupSection extends StatelessWidget {
                       ri.amount == 0 ? ri.unit : "${ri.amount} ${ri.unit}",
                       style: const TextStyle(color: Colors.grey),
                     ),
+                    SizedBox(width: 10),
+                    IconButton(
+                      icon: const Icon(
+                        Icons.add_shopping_cart,
+                        color: Colors.green,
+                      ),
+                      onPressed: () {
+                        // TODO: add ingredient to shoppingcart
+                      },
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(
+                        minWidth: 28,
+                        minHeight: 28,
+                      ),
+                    ),
                     IconButton(
                       icon: const Icon(
                         Icons.remove_circle_outline,

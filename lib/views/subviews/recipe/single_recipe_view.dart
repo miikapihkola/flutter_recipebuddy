@@ -77,7 +77,7 @@ class _SingleRecipeViewState extends State<SingleRecipeStatefulView> {
         children: [
           const SizedBox(height: 12),
 
-          // --- Name + icons row ---
+          // Name + icons row
           Row(
             children: [
               Expanded(
@@ -102,7 +102,7 @@ class _SingleRecipeViewState extends State<SingleRecipeStatefulView> {
           ),
           const SizedBox(height: 8),
 
-          // --- Categories + type row ---
+          // Categories + type row
           Wrap(
             spacing: 8,
             children: [
@@ -119,7 +119,7 @@ class _SingleRecipeViewState extends State<SingleRecipeStatefulView> {
           ),
           const SizedBox(height: 8),
 
-          // --- Description ---
+          // Description
           if (item.description.isNotEmpty) ...[
             Text(
               item.description,
@@ -129,7 +129,7 @@ class _SingleRecipeViewState extends State<SingleRecipeStatefulView> {
           ],
           const Divider(height: 24),
 
-          // --- Servings + rating + timestamp ---
+          // Servings + rating + timestamp
           item.servings != 0
               ? InfoRow(label: "Servings", value: item.servings.toString())
               : Container(),
@@ -142,7 +142,7 @@ class _SingleRecipeViewState extends State<SingleRecipeStatefulView> {
 
           const Divider(height: 24),
 
-          // --- Type specific ---
+          // Type specific
           if (item is FoodRecipe) ...[
             InfoRow(label: "Prep time", value: "${item.prepTimeMinutes} min"),
             Row(
@@ -197,7 +197,7 @@ class _SingleRecipeViewState extends State<SingleRecipeStatefulView> {
             const SizedBox(height: 8),
           ],
 
-          // --- Ingredient groups ---
+          // Ingredient groups
           if (item.ingredientGroups.isNotEmpty) ...[
             const Text(
               "Ingredients",
@@ -210,7 +210,7 @@ class _SingleRecipeViewState extends State<SingleRecipeStatefulView> {
             const Divider(height: 24),
           ],
 
-          // --- Cook steps ---
+          // Cook steps
           if (item is FoodRecipe && item.cookSteps.isNotEmpty) ...[
             const Text(
               "Cook Steps",

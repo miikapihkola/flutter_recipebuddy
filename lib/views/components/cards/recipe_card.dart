@@ -107,7 +107,7 @@ Column _set(RecipeItem item) {
             ),
           ),
           //Text(item.recipeType),
-          Text("Servings: ${item.servings}"),
+          item.servings != 0 ? Text("Servings: ${item.servings}") : Container(),
           Padding(
             padding: const EdgeInsets.only(right: 15),
             child: Text("Rating: ${item.rating}"),
