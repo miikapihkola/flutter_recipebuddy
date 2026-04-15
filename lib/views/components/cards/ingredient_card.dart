@@ -17,83 +17,91 @@ Center ingredientCard(
           Column(
             children: [
               ListTile(
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        if (item.inShoppinglist) {
-                          manager.removeFromShoppinglist(item);
-                        } else {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  InputIngredientToshoppinglistView(item: item),
-                            ),
-                          );
-                        }
-                      },
-                      icon: Icon(
-                        Icons.shopping_cart,
-                        color: item.inShoppinglist
-                            ? Colors.deepOrange
-                            : Colors.blueGrey,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        manager.toggleStarred(item);
-                      },
-                      icon: Icon(
-                        Icons.star,
-                        color: item.isStarred
-                            ? Colors.deepOrange
-                            : Colors.blueGrey,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        manager.bumpStatus(item);
-                      },
-                      icon: Icon(Icons.shelves),
-                      color: _getColor(item.status),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                InputIngredientView(item: item),
-                          ),
-                        );
-                      },
-                      icon: Icon(Icons.edit),
-                    ),
-                  ],
-                ),
+                //trailing:
                 title: Text(
                   item.name,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 3,
                 ),
-                subtitle: item.expire != null
-                    ? Row(
-                        children: [
-                          Text("Exp. ", textScaler: TextScaler.linear(1.1)),
-                          Text(
-                            DateFormat("dd.MM.yyyy").format(item.expire!),
-                            textScaler: TextScaler.linear(1.1),
-                            style: TextStyle(
-                              color: item.expire!.isAfter(DateTime.now())
-                                  ? Colors.black
-                                  : Colors.red,
-                            ),
+                subtitle: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    item.expire != null
+                        ? Row(
+                            children: [
+                              Text("Exp. ", textScaler: TextScaler.linear(1.2)),
+                              Text(
+                                DateFormat("dd.MM.yyyy").format(item.expire!),
+                                textScaler: TextScaler.linear(1.2),
+                                style: TextStyle(
+                                  color: item.expire!.isAfter(DateTime.now())
+                                      ? Colors.black
+                                      : Colors.red,
+                                ),
+                              ),
+                            ],
+                          )
+                        : Container(),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            if (item.inShoppinglist) {
+                              manager.removeFromShoppinglist(item);
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      InputIngredientToshoppinglistView(
+                                        item: item,
+                                      ),
+                                ),
+                              );
+                            }
+                          },
+                          icon: Icon(
+                            Icons.shopping_cart,
+                            color: item.inShoppinglist
+                                ? Colors.deepOrange
+                                : Colors.blueGrey,
                           ),
-                        ],
-                      )
-                    : Container(),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            manager.toggleStarred(item);
+                          },
+                          icon: Icon(
+                            Icons.star,
+                            color: item.isStarred
+                                ? Colors.deepOrange
+                                : Colors.blueGrey,
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            manager.bumpStatus(item);
+                          },
+                          icon: Icon(Icons.shelves),
+                          color: _getColor(item.status),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    InputIngredientView(item: item),
+                              ),
+                            );
+                          },
+                          icon: Icon(Icons.edit),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(15, 0, 0, 5),

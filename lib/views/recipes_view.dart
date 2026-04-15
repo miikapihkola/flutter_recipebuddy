@@ -3,6 +3,7 @@ import 'components/cards/ingredient_card.dart';
 import 'components/filter/filter_bar.dart';
 import '../data/category_list_builder.dart';
 import 'components/cards/recipe_card_test.dart';
+import 'components/cards/recipe_card.dart';
 import 'components/singleComponents/custom_divider.dart';
 import 'package:provider/provider.dart';
 import '../data/recipe/recipe_list_manager.dart';
@@ -176,7 +177,7 @@ class _RecipesViewState extends State<RecipesView> {
                             child: ListView.builder(
                               itemCount: displayList.length,
                               itemBuilder: (context, index) {
-                                return recipeCardTest(
+                                return recipeCard(
                                   displayList[index],
                                   context,
                                   listManager,

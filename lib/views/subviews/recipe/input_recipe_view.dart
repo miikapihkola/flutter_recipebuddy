@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_recipebuddy/views/components/singleComponents/custom_deletebtn.dart';
+import '../../components/singleComponents/custom_deletebtn.dart';
 import '../../../data/category_list_builder.dart';
 import '../../../data/recipe/recipe_list_manager.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +10,8 @@ import 'input_recipe_form_fields/input_recipe_form_fields_base.dart';
 
 class InputRecipeView extends StatelessWidget {
   final RecipeItem? item;
-  const InputRecipeView({super.key, this.item});
+  final bool popTwiceOnDelete;
+  const InputRecipeView({super.key, this.item, this.popTwiceOnDelete = false});
 
   @override
   Widget build(BuildContext context) {
@@ -18,14 +19,17 @@ class InputRecipeView extends StatelessWidget {
       appBar: AppBar(
         title: Text(item == null ? "Add new recipe" : "Edit existing recipe"),
       ),
-      body: SingleChildScrollView(child: InputForm(item: item)),
+      body: SingleChildScrollView(
+        child: InputForm(item: item, popTwiceOnDelete: popTwiceOnDelete),
+      ),
     );
   }
 }
 
 class InputForm extends StatefulWidget {
   final RecipeItem? item;
-  const InputForm({super.key, this.item});
+  final bool popTwiceOnDelete;
+  const InputForm({super.key, this.item, required this.popTwiceOnDelete});
 
   @override
   State<StatefulWidget> createState() => _InputFormState();
@@ -389,7 +393,12 @@ class _InputFormState extends State<InputForm> {
                               CustomDeleteBtn.show(
                                 context: context,
                                 itemName: "recipe",
-                                onDelete: () => manager.delete(widget.item!),
+                                onDelete: () async {
+                                  manager.delete(widget.item!);
+                                  if (widget.popTwiceOnDelete) {
+                                    Navigator.pop(context);
+                                  }
+                                },
                               );
                             },
                             style: ElevatedButton.styleFrom(
