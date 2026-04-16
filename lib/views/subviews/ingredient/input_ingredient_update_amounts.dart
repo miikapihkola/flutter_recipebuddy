@@ -113,7 +113,7 @@ class _InputFormState extends State<InputForm> {
     setState(() {
       preferOriginalUnit = preferOriginalUnitValue;
 
-      List<String> suggestedValue = _getSuggestedValue(
+      List<String> suggestedValue = getSuggestedValue(
         isAddition,
         currentAmount,
         unit,
@@ -277,7 +277,7 @@ class _InputFormState extends State<InputForm> {
   }
 }
 
-List<String> _getSuggestedValue(
+List<String> getSuggestedValue(
   bool isAddition,
   double firstValue,
   String firstValueUnit,

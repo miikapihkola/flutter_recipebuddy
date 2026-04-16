@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_recipebuddy/views/subviews/ingredient/input_ingredient_update_amounts.dart';
+import '../../../../data/ingredient/ingredient_item.dart';
 import '../../../../data/ingredient/ingredient_list_manager.dart';
 import '../../../../data/recipe/recipe_item.dart';
+import '../../ingredient/input_ingredient_toshoppinglist_view.dart';
 
 class IngredientGroupSection extends StatelessWidget {
   final RecipeIngredientGroup group;
@@ -14,6 +17,10 @@ class IngredientGroupSection extends StatelessWidget {
   String _resolveName(int ingredientId) {
     final match = manager.items.where((i) => i.id == ingredientId);
     return match.isNotEmpty ? match.first.name : "Unknown";
+  }
+
+  IngredientItem _resolveItem(int ingredientId) {
+    return manager.items.firstWhere((i) => i.id == ingredientId);
   }
 
   @override
@@ -65,7 +72,24 @@ class IngredientGroupSection extends StatelessWidget {
                         color: Colors.green,
                       ),
                       onPressed: () {
-                        // TODO: add ingredient to shoppingcart
+                        // -- TODO Why not working?
+                        IngredientItem ig = _resolveItem(ri.ingredientId);
+                        if (ig.inShoppinglist) {
+                          InputIngredientToshoppinglistView(
+                            item: ig,
+                            fromRecipe: true,
+                            alreadyInList: true,
+                            valueFromRecipe: ri.amount,
+                            unitFromRecipe: ri.unit,
+                          ); // Make necessary changes to input dialog - resolve addition
+                        } else {
+                          InputIngredientToshoppinglistView(
+                            item: ig,
+                            fromRecipe: true,
+                            valueFromRecipe: ri.amount,
+                            unitFromRecipe: ri.unit,
+                          ); // Make necessary changes to input dialog - change values as
+                        }
                       },
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(
@@ -79,7 +103,13 @@ class IngredientGroupSection extends StatelessWidget {
                         color: Color.fromARGB(255, 160, 0, 0),
                       ),
                       onPressed: () {
-                        // TODO: reduce ingredient amount
+                        // -- TODO Why not working?
+                        InputIngredientUpdateAmountsView(
+                          item: _resolveItem(ri.ingredientId),
+                          isAddition: false,
+                          usageAmount: ri.amount,
+                          usageUnit: ri.unit,
+                        );
                       },
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(

@@ -7,7 +7,18 @@ import 'package:provider/provider.dart';
 
 class InputIngredientToshoppinglistView extends StatelessWidget {
   final IngredientItem item;
-  const InputIngredientToshoppinglistView({super.key, required this.item});
+  final bool alreadyInList;
+  final bool fromRecipe;
+  final double valueFromRecipe;
+  final String unitFromRecipe;
+  const InputIngredientToshoppinglistView({
+    super.key,
+    required this.item,
+    this.fromRecipe = false,
+    this.alreadyInList = false,
+    this.valueFromRecipe = 0,
+    this.unitFromRecipe = "",
+  });
 
   @override
   Widget build(BuildContext context) {
