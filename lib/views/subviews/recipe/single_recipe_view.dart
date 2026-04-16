@@ -136,7 +136,7 @@ class _SingleRecipeViewState extends State<SingleRecipeStatefulView> {
           InfoRow(label: "Rating", value: item.rating.toString()),
           if (item.timeStamp != null)
             InfoRow(
-              label: "Time Stamp",
+              label: "Timestamp",
               value: DateFormat("dd.MM.yyyy").format(item.timeStamp!),
             ),
 

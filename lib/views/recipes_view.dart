@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'components/cards/ingredient_card.dart';
 import 'components/filter/filter_bar.dart';
 import '../data/category_list_builder.dart';
-import 'components/cards/recipe_card_test.dart';
 import 'components/cards/recipe_card.dart';
 import 'components/singleComponents/custom_divider.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +17,13 @@ class RecipesView extends StatefulWidget {
 }
 
 class _RecipesViewState extends State<RecipesView> {
-  final List<String> sortByList = ["Alphabetical", "Recent"];
+  final List<String> sortByList = [
+    "Alphabetical",
+    "Recent",
+    "Servings",
+    "Rating",
+    "Timestamp",
+  ];
 
   List<bool> selectedIncludeStarred = [true, true]; // no, yes
 
@@ -73,6 +77,23 @@ class _RecipesViewState extends State<RecipesView> {
           break;
         case "Recent":
           compare = a.id.compareTo(b.id);
+          break;
+        case "Servings":
+          compare = a.servings.compareTo(b.servings);
+          break;
+        case "Rating":
+          compare = a.rating.compareTo(b.rating);
+          break;
+        case "Timestamp":
+          if (a.timeStamp == null && b.timeStamp == null) {
+            compare = 0;
+          } else if (a.timeStamp == null) {
+            compare = 1;
+          } else if (b.timeStamp == null) {
+            compare = -1;
+          } else {
+            compare = a.timeStamp!.compareTo(b.timeStamp!);
+          }
           break;
         default:
           compare = 0;
@@ -139,7 +160,7 @@ class _RecipesViewState extends State<RecipesView> {
                     showSearchBar
                         ? Column(
                             children: [
-                              /*FilterBar(
+                              FilterBar(
                                 viewType: RecipesView(),
                                 categoryList: categoryList,
                                 subcategoryList: subcategoryList,
@@ -166,8 +187,12 @@ class _RecipesViewState extends State<RecipesView> {
                                       });
                                     },
                               ),
-                              FilterRecipes(),*/
-                              Text("Placeholder searchbar"),
+                              // FilterRecipes(),
+                              Text("TODO - recipe specifics search bar"),
+                              // pinned, starred, recipe type, contains specific ingredient,
+                              // if food - deep bowl, add preptime to sort list
+                              // if coktail - isalc, glasstype, method, add abv to sort list
+                              // if ferment - notifywhenready, add fermenttime, fermentingstarted, fermentready to sort list
                             ],
                           )
                         : CustomDivider(tb: [2, 0]),
