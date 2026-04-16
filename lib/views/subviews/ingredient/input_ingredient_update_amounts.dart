@@ -290,21 +290,29 @@ List<String> getSuggestedValue(
 
   if (firstValueUnit == secondValueUnit) {
     suggestedUnit = firstValueUnit;
-    suggestedValue = firstValue + secondValue;
+    suggestedValue = isAddition
+        ? firstValue + secondValue
+        : firstValue - secondValue;
   } else if (firstValueUnit != "" && secondValueUnit == "") {
     suggestedUnit = firstValueUnit;
-    suggestedValue = firstValue + secondValue;
+    suggestedValue = isAddition
+        ? firstValue + secondValue
+        : firstValue - secondValue;
   } else if (firstValueUnit == "" && secondValueUnit != "") {
     suggestedUnit = secondValueUnit;
-    suggestedValue = firstValue + secondValue;
-  } else if (isAddition && !preferOriginalUnit) {
+    suggestedValue = isAddition
+        ? firstValue + secondValue
+        : firstValue - secondValue;
+  } else if (!preferOriginalUnit) {
     suggestedUnit = secondValueUnit;
     double convertedValue = valueConverter(
       firstValue,
       firstValueUnit,
       secondValueUnit,
     );
-    suggestedValue = secondValue + convertedValue;
+    suggestedValue = isAddition
+        ? secondValue + convertedValue
+        : convertedValue - secondValue;
   } else {
     suggestedUnit = firstValueUnit;
     double convertedValue = valueConverter(
@@ -312,7 +320,9 @@ List<String> getSuggestedValue(
       secondValueUnit,
       firstValueUnit,
     );
-    suggestedValue = firstValue + convertedValue;
+    suggestedValue = isAddition
+        ? firstValue + convertedValue
+        : firstValue - convertedValue;
   }
 
   if (suggestedValue < 0) {

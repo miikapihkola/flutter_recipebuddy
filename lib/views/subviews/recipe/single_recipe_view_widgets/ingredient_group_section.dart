@@ -72,24 +72,18 @@ class IngredientGroupSection extends StatelessWidget {
                         color: Colors.green,
                       ),
                       onPressed: () {
-                        // -- TODO Why not working?
-                        IngredientItem ig = _resolveItem(ri.ingredientId);
-                        if (ig.inShoppinglist) {
-                          InputIngredientToshoppinglistView(
-                            item: ig,
-                            fromRecipe: true,
-                            alreadyInList: true,
-                            valueFromRecipe: ri.amount,
-                            unitFromRecipe: ri.unit,
-                          ); // Make necessary changes to input dialog - resolve addition
-                        } else {
-                          InputIngredientToshoppinglistView(
-                            item: ig,
-                            fromRecipe: true,
-                            valueFromRecipe: ri.amount,
-                            unitFromRecipe: ri.unit,
-                          ); // Make necessary changes to input dialog - change values as
-                        }
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                InputIngredientToshoppinglistView(
+                                  item: _resolveItem(ri.ingredientId),
+                                  fromRecipe: true,
+                                  valueFromRecipe: ri.amount,
+                                  unitFromRecipe: ri.unit,
+                                ),
+                          ),
+                        );
                       },
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(
@@ -103,12 +97,17 @@ class IngredientGroupSection extends StatelessWidget {
                         color: Color.fromARGB(255, 160, 0, 0),
                       ),
                       onPressed: () {
-                        // -- TODO Why not working?
-                        InputIngredientUpdateAmountsView(
-                          item: _resolveItem(ri.ingredientId),
-                          isAddition: false,
-                          usageAmount: ri.amount,
-                          usageUnit: ri.unit,
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                InputIngredientUpdateAmountsView(
+                                  item: _resolveItem(ri.ingredientId),
+                                  isAddition: false,
+                                  usageAmount: ri.amount,
+                                  usageUnit: ri.unit,
+                                ),
+                          ),
                         );
                       },
                       padding: EdgeInsets.zero,

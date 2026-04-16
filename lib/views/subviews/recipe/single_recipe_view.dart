@@ -79,6 +79,7 @@ class _SingleRecipeViewState extends State<SingleRecipeStatefulView> {
 
           // Name + icons row
           Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Expanded(
                 child: Text(
@@ -89,14 +90,20 @@ class _SingleRecipeViewState extends State<SingleRecipeStatefulView> {
                   ),
                 ),
               ),
-              Icon(
-                Icons.push_pin_rounded,
-                color: item.isPinned ? Colors.deepOrange : Colors.blueGrey,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 5),
+                child: Icon(
+                  Icons.push_pin_rounded,
+                  color: item.isPinned ? Colors.deepOrange : Colors.blueGrey,
+                ),
               ),
               const SizedBox(width: 4),
-              Icon(
-                Icons.star,
-                color: item.isStarred ? Colors.deepOrange : Colors.blueGrey,
+              Padding(
+                padding: const EdgeInsets.only(bottom: 5),
+                child: Icon(
+                  Icons.star,
+                  color: item.isStarred ? Colors.deepOrange : Colors.blueGrey,
+                ),
               ),
             ],
           ),
