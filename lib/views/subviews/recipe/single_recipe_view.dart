@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../data/recipe/recipe_item.dart';
 import '../../../data/recipe/recipe_list_manager.dart';
-import '../../../data/ingredient/ingredient_list_manager.dart';
 import 'input_recipe_view.dart';
 import 'single_recipe_view_widgets/info_row.dart';
 import 'single_recipe_view_widgets/ingredient_group_section.dart';
@@ -68,7 +67,6 @@ class _SingleRecipeViewState extends State<SingleRecipeStatefulView> {
   @override
   Widget build(BuildContext context) {
     final item = widget.item;
-    final manager = Provider.of<IngredientListManager>(context, listen: false);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -212,7 +210,7 @@ class _SingleRecipeViewState extends State<SingleRecipeStatefulView> {
             ),
             const SizedBox(height: 8),
             ...item.ingredientGroups.map(
-              (group) => IngredientGroupSection(group: group, manager: manager),
+              (group) => IngredientGroupSection(group: group),
             ),
             const Divider(height: 24),
           ],
