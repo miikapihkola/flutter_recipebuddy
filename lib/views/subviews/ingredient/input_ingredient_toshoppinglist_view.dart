@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../data/settings_helper.dart';
-import 'input_ingredient_update_amounts.dart';
+import 'input_ingredient_update_amounts_view.dart';
 import '../../../data/ingredient/ingredient_item.dart';
 import '../../../data/ingredient/ingredient_list_manager.dart';
 import '../../components/singleComponents/custom_dropdownunit.dart';

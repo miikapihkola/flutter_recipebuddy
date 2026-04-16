@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_recipebuddy/views/subviews/ingredient/input_ingredient_update_amounts.dart';
+import 'package:flutter_recipebuddy/views/subviews/ingredient/input_ingredient_update_amounts_view.dart';
 import 'package:provider/provider.dart';
 import '../../../../data/ingredient/ingredient_item.dart';
 import '../../../../data/ingredient/ingredient_list_manager.dart';
