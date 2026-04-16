@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../../../../data/constants.dart';
-import 'package:provider/provider.dart';
-import '../../../../../data/ingredient/ingredient_list_manager.dart';
 import '../../../../../data/recipe/recipe_item.dart';
 import '../../../../components/singleComponents/custom_dropdownunit.dart';
 

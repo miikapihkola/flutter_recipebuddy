@@ -120,8 +120,8 @@ class NotificationHelper {
     final now = tz.TZDateTime.now(tz.local);
     final scheduleDate = now.add(Duration(seconds: 10));
 
-    print("DEBUG: Scheduling test notification for $scheduleDate");
-    print("DEBUG: Current time is $now");
+    debugPrint("DEBUG: Scheduling test notification for $scheduleDate");
+    debugPrint("DEBUG: Current time is $now");
 
     await _notifications.zonedSchedule(
       id: 999,
@@ -154,12 +154,12 @@ class NotificationHelper {
       ),
     );
 
-    print("DEBUG: Notification scheduled succesfully");
+    debugPrint("DEBUG: Notification scheduled succesfully");
 
     final pending = await _notifications.pendingNotificationRequests();
-    print("DEBUG: Pending notifications: ${pending.length}");
+    debugPrint("DEBUG: Pending notifications: ${pending.length}");
     for (final n in pending) {
-      print("DEBUG: id=${n.id}, title${n.title}, body${n.body}");
+      debugPrint("DEBUG: id=${n.id}, title${n.title}, body${n.body}");
     }
   }
 }

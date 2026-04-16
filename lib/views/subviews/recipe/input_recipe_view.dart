@@ -260,17 +260,21 @@ class _InputFormState extends State<InputForm> {
                 onTimeStampChanged: (value) =>
                     setState(() => timeStamp = value),
                 categoryValidator: (value) {
-                  if (value == null || value.isEmpty)
+                  if (value == null || value.isEmpty) {
                     return "Select main category";
-                  if (value.toLowerCase() == categoryAll.toLowerCase())
+                  }
+                  if (value.toLowerCase() == categoryAll.toLowerCase()) {
                     return "Cannot use value '$categoryAll'";
+                  }
                   return null;
                 },
                 subcategoryValidator: (value) {
-                  if (value == null || value.isEmpty)
+                  if (value == null || value.isEmpty) {
                     return "Select sub category";
-                  if (value.toLowerCase() == categoryAll.toLowerCase())
+                  }
+                  if (value.toLowerCase() == categoryAll.toLowerCase()) {
                     return "Cannot use value '$categoryAll'";
+                  }
                   return null;
                 },
               ),
@@ -361,23 +365,26 @@ class _InputFormState extends State<InputForm> {
                               ),
                             ),
                           );
+                          return;
                         }
+
+                        final manager = Provider.of<RecipeListManager>(
+                          context,
+                          listen: false,
+                        );
+                        final navigator = Navigator.of(context);
+
                         await _ingredientGroupsKey.currentState!
                             .flushPendingIngredients(context);
 
                         final item = _buildItem();
+
                         if (isEdit) {
-                          Provider.of<RecipeListManager>(
-                            context,
-                            listen: false,
-                          ).update(item);
+                          manager.update(item);
                         } else {
-                          Provider.of<RecipeListManager>(
-                            context,
-                            listen: false,
-                          ).add(item);
+                          manager.add(item);
                         }
-                        Navigator.pop(context);
+                        navigator.pop();
                       },
                       child: isEdit ? const Text("Edit") : const Text("Add"),
                     ),
